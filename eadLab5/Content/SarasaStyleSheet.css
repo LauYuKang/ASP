@@ -1,0 +1,30 @@
+﻿#trips-tab {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.trip-panels {
+    background-color: aqua;
+    overflow:hidden;
+    border: 3px solid black;
+    border-radius:25px;
+    margin-top: 25px;
+}
+
+.trip-image {
+    width: 300px;
+    height: 150px;
+}
+
+.trip-btn{
+    margin-bottom:20px;
+}
+
+.add-trip-btn{
+    display: flex;
+}
+
+.trip-modal-img{
+    width: 466px;
+    height: 262px
+}
