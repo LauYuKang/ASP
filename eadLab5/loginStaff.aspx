@@ -16,7 +16,7 @@
 </td>
         </tr>
 
-        <tr>
+        <tr> 
             <td>
                 <asp:Label ID="Label2" runat="server" Text="Password" ></asp:Label></td>
             <td>
