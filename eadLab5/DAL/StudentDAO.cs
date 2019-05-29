@@ -136,6 +136,45 @@ namespace eadLab5.DAL
             return studList;
         }
 
+        public int InsertTD(String AdminNo, String Password, String Email, String HpNumber)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            StringBuilder sqlStr = new StringBuilder();
+            int result = 0;    // Execute NonQuery return an integer value
+            SqlCommand sqlCmd = new SqlCommand();
+            // Step1 : Create SQL insert command to add record to TDMaster using     
+
+            //         parameterised query in values clause
+            //
+            sqlStr.AppendLine("INSERT INTO Student (AdminNo, Password, Email, HpNumber) ");
+            sqlStr.AppendLine("VALUES (@paraAdmin,@paraPassword, @paraEmail, @paraHpNumber)");
+
+
+            // Step 2 :Instantiate SqlConnection instance and SqlCommand instance
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            sqlCmd = new SqlCommand(sqlStr.ToString(), myConn);
+
+            // Step 3 : Add each parameterised query variable with value
+            //          complete to add all parameterised queries
+            sqlCmd.Parameters.AddWithValue("@paraAdmin", AdminNo);
+            sqlCmd.Parameters.AddWithValue("@paraPassword", Password);
+            sqlCmd.Parameters.AddWithValue("@paraEmail", Email);
+            sqlCmd.Parameters.AddWithValue("@paraHpNumber", HpNumber);
+
+            // Step 4 Open connection the execute NonQuery of sql command   
+
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+
+            // Step 5 :Close connection
+            myConn.Close();
+
+            return result;
+
+        }
+
     }
 }
 

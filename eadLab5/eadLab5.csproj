@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -208,6 +209,7 @@
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
+    <Content Include="SignUp.aspx" />
     <Content Include="StaffViewSpecificFeedBack.aspx" />
     <Content Include="Student.aspx" />
     <Content Include="TermDeposit.aspx" />
@@ -464,6 +466,13 @@
     </Compile>
     <Compile Include="ReportAndStatistics.aspx.designer.cs">
       <DependentUpon>ReportAndStatistics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SignUp.aspx.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SignUp.aspx.designer.cs">
+      <DependentUpon>SignUp.aspx</DependentUpon>
     </Compile>
     <Compile Include="StaffViewSpecificFeedBack.aspx.cs">
       <DependentUpon>StaffViewSpecificFeedBack.aspx</DependentUpon>
