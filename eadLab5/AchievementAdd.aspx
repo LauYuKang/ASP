@@ -10,7 +10,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <form runat="server">
         <h2>Adding Achievement</h2>
-        <table class="table">
+        <table class="table"> <div></div>
             <tr>
                 <td class="auto-style1">Admin Number:</td>
                 <td>

@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 <form id="form1" runat="server">
-    <div>
+    <div >
 
             <table style="margin:auto;border:5px solid white">
         
