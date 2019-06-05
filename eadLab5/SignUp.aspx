@@ -17,7 +17,7 @@
             <td>
                 <asp:Label ID="Label" runat="server" Text="Admin No:"></asp:Label></td>
             <td>
-                <asp:TextBox ID="tbAdminNo" CssClass="form-control" runat="server"></asp:TextBox><asp:Label ID="validateAdminNo" Visible="False" runat="server" Text="Admin Number is required!" ForeColor="Red"></asp:Label>
+                <asp:TextBox style="text-transform:uppercase" ID ="tbAdminNo" CssClass="form-control" runat="server" MaxLength="7"></asp:TextBox><asp:Label ID="validateAdminNo" Visible="False" runat="server" ForeColor="Red"></asp:Label>
 </td>
         </tr>
 
@@ -25,28 +25,29 @@
             <td>
                 <asp:Label ID="Label2" runat="server" Text="Password:" ></asp:Label></td>
             <td>
-                <asp:Textbox ID="tbPw" runat="server" CssClass="form-control" TextMode="Password" ></asp:Textbox><asp:Label ID="validatePw" Visible="False"  runat="server" Text="Password is required!" ForeColor="Red"></asp:Label>
+                <asp:Textbox ID="tbPw" runat="server" CssClass="form-control" TextMode="Password" MaxLength="16" CausesValidation="True" ></asp:Textbox><asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="tbPw" ErrorMessage="No special character" ForeColor="Red" ValidationExpression="^(?![\d\W]+$).+"></asp:RegularExpressionValidator><asp:Label ID="validatePw" Visible="False"  runat="server" ForeColor="Red"></asp:Label>
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="tbPw" ErrorMessage="No special character" ForeColor="Red" ValidationExpression="^(?![\d\W]+$).+"></asp:RegularExpressionValidator>
 </td>
         </tr>
         <tr> 
             <td>
                 <asp:Label ID="Label1" runat="server" Text="Comfirm Password:" ></asp:Label></td>
             <td>
-                <asp:Textbox ID="tbCfmpw" runat="server" CssClass="form-control" TextMode="Password" ></asp:Textbox><asp:Label ID="validateCfmPw" Visible="False"  runat="server" Text="Password not the same!" ForeColor="Red"></asp:Label>
+                <asp:Textbox ID="tbCfmpw" runat="server" CssClass="form-control" TextMode="Password" MaxLength="16" ></asp:Textbox><asp:Label ID="validateCfmPw" Visible="False"  runat="server" ForeColor="Red"></asp:Label>
 </td>
         </tr>
                         <tr> 
             <td>
                 <asp:Label ID="Label4" runat="server" Text="Email Address:" ></asp:Label></td>
             <td>
-                <asp:Textbox ID="tbEmailAdd" runat="server" CssClass="form-control" ></asp:Textbox><asp:Label ID="validateEmail" Visible="False"  runat="server" Text="Email Address is required!" ForeColor="Red"></asp:Label>
+                <asp:Textbox ID="tbEmailAdd" runat="server" CssClass="form-control" TextMode="Email" ></asp:Textbox><asp:Label ID="validateEmail" Visible="False"  runat="server" ForeColor="Red"></asp:Label>
 </td>
         </tr>
                         <tr> 
             <td>
-                <asp:Label ID="Label6" runat="server" Text="Phone Number:" ></asp:Label></td>
+                <asp:Label ID="Label6" runat="server" Text="Phone Number (+65):" ></asp:Label></td>
             <td>
-                <asp:Textbox ID="tbPhone" runat="server" CssClass="form-control" ></asp:Textbox><asp:Label ID="validatePhoneNo" Visible="False"  runat="server" Text="Phone Number is required!" ForeColor="Red"></asp:Label>
+                <asp:Textbox ID="tbPhone" runat="server" CssClass="form-control" MaxLength="8" TextMode="Phone" ></asp:Textbox><asp:Label ID="validatePhoneNo" Visible="False"  runat="server" ForeColor="Red"></asp:Label>
 </td>
         </tr>
         <tr>
