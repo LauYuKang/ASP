@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -144,6 +145,7 @@
     <Content Include="App_Data\TimeDeposit_log.ldf">
       <DependentUpon>TimeDeposit.mdf</DependentUpon>
     </Content>
+    <Content Include="AuditingAndLog.aspx" />
     <Content Include="ChangePw.aspx" />
     <Content Include="ChooseInterview.aspx" />
     <Content Include="ChooseOffer.aspx" />
@@ -244,6 +246,13 @@
     <Compile Include="Acknowledge.aspx.designer.cs">
       <DependentUpon>Acknowledge.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AuditingAndLog.aspx.cs">
+      <DependentUpon>AuditingAndLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AuditingAndLog.aspx.designer.cs">
+      <DependentUpon>AuditingAndLog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ChangePw.aspx.cs">
       <DependentUpon>ChangePw.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -274,6 +283,8 @@
     </Compile>
     <Compile Include="DAL\Achievement.cs" />
     <Compile Include="DAL\AchievementDAO.cs" />
+    <Compile Include="DAL\Audit.cs" />
+    <Compile Include="DAL\AuditDAO.cs" />
     <Compile Include="DAL\Choice.cs" />
     <Compile Include="DAL\customer.cs" />
     <Compile Include="DAL\customerDAO.cs" />

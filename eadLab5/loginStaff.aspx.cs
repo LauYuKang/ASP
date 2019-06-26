@@ -41,6 +41,14 @@ namespace eadLab5
                 {
                     Session["Staffid"] = logObj.Staffid;
                     Session["role"] = logObj.Role;
+
+                    Audit newAudit = new Audit();
+                    AuditDAO newAuditDAO = new AuditDAO();
+                    DateTime currentDateTime = DateTime.Now;
+                    String staffID = logObj.Staffid;
+                    String ipaddr = newAudit.GetIPAddress();
+                    newAuditDAO.InsertAudit("LOGIN SUCCESS", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1);
+
                     Response.Redirect("TripDetails.aspx");
                     
                 }

@@ -13,6 +13,7 @@ namespace eadLab5.DAL
     {
         public int count = 0;
         string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
         public List<Trip> getTrip(string tripType)
         {
             List<Trip> tdList = new List<Trip>();

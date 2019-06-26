@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Net;
+using System.Collections;
 
 namespace eadLab5
 {
@@ -19,6 +21,8 @@ namespace eadLab5
         public static string adminNo = null;
         protected List<int> listId = null;
         TripDAO tripDao = new TripDAO();
+        AuditDAO auditDao = new AuditDAO();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["role"] != null)
@@ -89,6 +93,7 @@ namespace eadLab5
             if (Page.IsValid)
             {
                 TripDAO addTD = new DAL.TripDAO();
+                AuditDAO addAudit = new DAL.AuditDAO();
                 if (tripImageUpload.HasFile)
                 {
                     string addLocation = ddlAddLocation.SelectedItem.Text;
@@ -102,6 +107,25 @@ namespace eadLab5
                     HttpFileCollection uploadedFiles = Request.Files;
                     string[] images = new string[3];
                     int staffId = Convert.ToInt32(Session["StaffId"]);
+
+                    String strHostName = string.Empty;
+                    // Getting Ip address of local machine...
+                    // First get the host name of local machine.
+                    strHostName = Dns.GetHostName();
+                    Console.WriteLine("Local Machine's Host Name: " + strHostName);
+                    // Then using host name, get the IP address list..
+                    IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
+                    IPAddress[] addr = ipEntry.AddressList;
+                    string IPaddresses = "";
+
+                    foreach (System.Net.IPAddress IPaddr in addr)
+                    {
+                        string currentIPaddr = Convert.ToString(IPaddr);
+                        IPaddresses += "," + currentIPaddr;
+                    }
+
+                    
+
                     for (int i = 0; i < uploadedFiles.Count; i++)
                     {
                         HttpPostedFile userPostedFile = uploadedFiles[i];
@@ -118,6 +142,8 @@ namespace eadLab5
                         images[2] = "NULL";
                     }
                     int results = addTD.insertTrip(addLocation, images[0], addTitle, addStart, addEnd, addOpen, addActivities, cost, addType, images[1], images[2], staffId);
+                   // int resultss = addAudit.updateAudit(IPaddresses, staffId.ToString());
+
 
                     Response.Redirect("TripDetails.aspx");
                 }
