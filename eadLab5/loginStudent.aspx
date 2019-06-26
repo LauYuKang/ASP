@@ -28,8 +28,12 @@
             <td>
                 </td>
             <td>
-                <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click"></asp:Button></td>
-            <td></td>
+                <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click"></asp:Button>
+                <asp:Button ID="BtnSignUp" runat="server" Text="SignUp" OnClick="btnSignUp_click"></asp:Button>
+            </td>
+            <td>
+             </td>
+            
         </tr>
         <tr>
             <td></td>
