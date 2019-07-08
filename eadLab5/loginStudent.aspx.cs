@@ -42,15 +42,25 @@ namespace eadLab5
                 {
                     Session["AdminNo"] = stuObj.AdminNo;
                     Session["role"] = stuObj.Year;
+
+                    Audit newAudit = new Audit();
+                    AuditDAO newAuditDAO = new AuditDAO();
+                    DateTime currentDateTime = DateTime.Now;
+                    String AdminNo = stuObj.AdminNo;
+                    String ipaddr = newAudit.GetIPAddress();
+                    newAuditDAO.InsertAudit("LOGIN SUCCESS", currentDateTime, AdminNo, "NIL", ipaddr, "NIL", -1);
+
                     Response.Redirect("TripDetails.aspx");
                     string roleformasterpage = Session["role"].ToString();
                 }
             }
         }
 
-        protected void btnSignUp_Click(object sender, EventArgs e)
+
+
+        protected void btnSignUp_click(object sender, EventArgs e)
         {
             Response.Redirect("SignUp.aspx");
         }
-     }
+    }
 }
