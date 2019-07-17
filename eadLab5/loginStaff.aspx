@@ -8,7 +8,7 @@
             <table style="margin:auto;border:5px solid white">
           
         
-        <tr>
+        <tr> 
             <td>
                 <asp:Label ID="Label1" runat="server" Text="Login"></asp:Label></td>
             <td>

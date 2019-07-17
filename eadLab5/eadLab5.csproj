@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -287,6 +288,7 @@
     <Compile Include="DAL\InterestRteDAO.cs" />
     <Compile Include="DAL\Interview.cs" />
     <Compile Include="DAL\InterviewDAO.cs" />
+    <Compile Include="DAL\ReCaptchaClass.cs" />
     <Compile Include="DAL\RegStudent.cs" />
     <Compile Include="DAL\RegStudentDAO.cs" />
     <Compile Include="DAL\StaffLogin.cs" />
@@ -538,6 +540,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ErrorPages\" />
+    <Folder Include="ReCaptchaV2\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
