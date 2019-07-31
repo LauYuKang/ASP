@@ -25,15 +25,24 @@ namespace eadLab5
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["role"] != null)
-            {
-                role = Session["role"].ToString();
-                if(role == "Incharge" || role == "Teacher")
+            if (Session["role"] != null && Session["AuthToken"] != null && Request.Cookies["AuthToken"] != null)
+            { 
+                if (Session["AuthToken"].ToString().Equals(Request.Cookies["AuthToken"].Value))
                 {
-                    adminNo = null;
+                    role = Session["role"].ToString();
+                    if(role == "Incharge" || role == "Teacher")
+                    {
+                        adminNo = null;
+                    }
+                    else if (role == "1" || role == "2" || role == "3")
+                        adminNo = Session["AdminNo"].ToString();
+
+                    Response.Write("<script>alert('You have logged in successfully!')</script>");
+                } 
+                else
+                {
+                    Response.Redirect("loginStudent.aspx", false);
                 }
-                else if (role == "1" || role == "2" || role == "3")
-                    adminNo = Session["AdminNo"].ToString();
             }
             if (!IsPostBack)
             {
