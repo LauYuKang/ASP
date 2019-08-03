@@ -1,5 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage1.master" AutoEventWireup="true" CodeBehind="loginStudent.aspx.cs" Inherits="eadLab5.loginStudent" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style type="text/css">
+        .auto-style1 {
+            height: 32px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 <form id="form1" runat="server">
@@ -32,15 +37,15 @@
         </tr>
         
         <tr>
-            <td>
+            <td class="auto-style1">
                 
             </td>
 
-            <td>
+            <td class="auto-style1">
                 <div class="g-recaptcha" data-type="image" data-sitekey="6LcRgqUUAAAAAAbJUgL-FZwLdDEqJSCrsm36XD4p"></div>
             </td>
 
-            <td>
+            <td class="auto-style1">
                
                 <asp:Label ID="validateCaptcha" runat="server" ForeColor="Red" Text="Please check the box before you can continue" Visible="False"></asp:Label>
                
@@ -68,10 +73,7 @@
 
         <tr>
             <td></td>
-            <td>
-                <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click"></asp:Button>
 
-            </td>
             <td>&nbsp;</td>
         </tr>
 
