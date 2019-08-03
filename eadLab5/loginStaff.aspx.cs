@@ -129,6 +129,13 @@ namespace eadLab5
                     //creates cookie with the guid value
                     Response.Cookies.Add(new HttpCookie("AuthToken", guid));
 
+                    //creates a new guid every login & saves into session
+                    string guid = Guid.NewGuid().ToString();
+                    Session["AuthToken"] = guid;
+
+                    //creates cookie with the guid value
+                    Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+
                     Response.Redirect("TripDetails.aspx");
                     
                 }
