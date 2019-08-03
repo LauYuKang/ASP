@@ -301,6 +301,7 @@
     <Compile Include="DAL\InterviewDAO.cs" />
     <Compile Include="DAL\RegStudent.cs" />
     <Compile Include="DAL\RegStudentDAO.cs" />
+    <Compile Include="DAL\Staff.cs" />
     <Compile Include="DAL\StaffLogin.cs" />
     <Compile Include="DAL\StaffLoginDAO.cs" />
     <Compile Include="DAL\Student.cs" />

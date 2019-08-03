@@ -31,6 +31,24 @@ namespace eadLab5 {
         protected global::System.Web.UI.WebControls.Label pageLabel;
         
         /// <summary>
+        /// tb_date control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tb_date;
+        
+        /// <summary>
+        /// btn_retrieve control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btn_retrieve;
+        
+        /// <summary>
         /// GridView1 control.
         /// </summary>
         /// <remarks>
