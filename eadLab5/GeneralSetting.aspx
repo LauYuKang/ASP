@@ -45,6 +45,7 @@
   <asp:Button class="btn btn-secondary" ID="Button8" runat="server" OnClick="BtnAchievement_Click" Text="Achievement" />
   <asp:Button class="btn btn-secondary" ID="Button9" runat="server" OnClick="BtnEvent_Click" Text="Event" />
   <asp:Button class="btn btn-secondary" ID="Button10" runat="server" OnClick="BtnPassword_Click" Text="Change Password" />
+  <asp:Button class="btn btn-secondary" ID="ButtonEnable2FA" runat="server"  Text="Enable 2FA" OnClick="ButtonEnable2FA_Click" />
         <h2>Update Details</h2>
         <table class="table">
             <tr>

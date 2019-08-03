@@ -61,6 +61,8 @@ namespace eadLab5
                 {
                     System.Diagnostics.Debug.WriteLine(role);
                 }
+
+                Page.RegisterStartupScript("UserMsg", "<script>alert('nop'+ adminNo)</script>");
             }
         }
 

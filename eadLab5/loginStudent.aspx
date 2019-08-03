@@ -2,8 +2,10 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-<form id="form1" runat="server">
+    <form id="form1" runat="server">
     <div >
+
+            <asp:Label ID="Label3" runat="server" Text="Label"></asp:Label>
 
             <table style="margin:auto;border:5px solid white">
         
@@ -29,7 +31,8 @@
                 </td>
             <td>
                 <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click"></asp:Button>
-                <asp:Button ID="BtnSignUp" runat="server" Text="SignUp" OnClick="btnSignUp_click"></asp:Button>
+                <asp:Label ID="errorMsg" runat="server" Text="Userid or password is not valid. Please try again." Visible="False"></asp:Label>
+                <asp:Button ID="ButtonForgotPass" runat="server" OnClick="ButtonForgotPass_Click" Text="Forgot Password" />
             </td>
             <td>
              </td>
