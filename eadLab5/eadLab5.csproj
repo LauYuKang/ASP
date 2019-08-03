@@ -157,15 +157,10 @@
     <Content Include="Default.aspx" />
     <Content Include="EditTripDetails.aspx" />
     <Content Include="Enquiry.aspx" />
-    <Content Include="EventAdd.aspx" />
-    <Content Include="EventPage.aspx" />
-    <Content Include="FAQPage.aspx" />
     <Content Include="GeneralSetting.aspx" />
     <Content Include="Images\Logo.PNG" />
     <Content Include="Images\SarasaLogo.png" />
     <Content Include="Oops.aspx" />
-    <Content Include="FeedBackFormStudent.aspx" />
-    <Content Include="FeedBacks.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\oops.png" />
     <Content Include="Interview.aspx" />
@@ -185,11 +180,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Payment.aspx" />
     <Content Include="PEMMain.aspx" />
     <Content Include="ProfilePage.aspx" />
-    <Content Include="RegisteredStudents.aspx" />
-    <Content Include="ReportAndStatistics.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.4.min.map" />
@@ -207,15 +199,8 @@
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
     <Content Include="SignUp.aspx" />
-    <Content Include="StaffViewSpecificFeedBack.aspx" />
     <Content Include="Student.aspx" />
-    <Content Include="TermDeposit.aspx" />
-    <Content Include="TermDepositPlacement.aspx" />
-    <Content Include="TermDepositUpdate.aspx" />
     <Content Include="TripDetails.aspx" />
-    <Content Include="UpdateFeedBackSubmitted.aspx" />
-    <Content Include="ViewFeedBacksSubmitted.aspx" />
-    <Content Include="ViewFeedBackStaff.aspx" />
     <Content Include="WaitingList.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -320,27 +305,6 @@
     <Compile Include="Enquiry.aspx.designer.cs">
       <DependentUpon>Enquiry.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EventAdd.aspx.cs">
-      <DependentUpon>EventAdd.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EventAdd.aspx.designer.cs">
-      <DependentUpon>EventAdd.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="EventPage.aspx.cs">
-      <DependentUpon>EventPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EventPage.aspx.designer.cs">
-      <DependentUpon>EventPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FAQPage.aspx.cs">
-      <DependentUpon>FAQPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FAQPage.aspx.designer.cs">
-      <DependentUpon>FAQPage.aspx</DependentUpon>
-    </Compile>
     <Compile Include="GeneralSetting.aspx.cs">
       <DependentUpon>GeneralSetting.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -355,20 +319,6 @@
     </Compile>
     <Compile Include="Oops.aspx.designer.cs">
       <DependentUpon>Oops.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FeedBackFormStudent.aspx.cs">
-      <DependentUpon>FeedBackFormStudent.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FeedBackFormStudent.aspx.designer.cs">
-      <DependentUpon>FeedBackFormStudent.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FeedBacks.aspx.cs">
-      <DependentUpon>FeedBacks.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FeedBacks.aspx.designer.cs">
-      <DependentUpon>FeedBacks.aspx</DependentUpon>
     </Compile>
     <Compile Include="FromBodyAttribute.cs" />
     <Compile Include="HttpPostAttribute.cs" />
@@ -411,13 +361,6 @@
     <Compile Include="OverseasRegisteredList.aspx.designer.cs">
       <DependentUpon>OverseasRegisteredList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Payment.aspx.cs">
-      <DependentUpon>Payment.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Payment.aspx.designer.cs">
-      <DependentUpon>Payment.aspx</DependentUpon>
-    </Compile>
     <Compile Include="PEMMain.aspx.cs">
       <DependentUpon>PEMMain.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -433,20 +376,6 @@
       <DependentUpon>ProfilePage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisteredStudents.aspx.cs">
-      <DependentUpon>RegisteredStudents.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="RegisteredStudents.aspx.designer.cs">
-      <DependentUpon>RegisteredStudents.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ReportAndStatistics.aspx.cs">
-      <DependentUpon>ReportAndStatistics.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ReportAndStatistics.aspx.designer.cs">
-      <DependentUpon>ReportAndStatistics.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SignUp.aspx.cs">
       <DependentUpon>SignUp.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
