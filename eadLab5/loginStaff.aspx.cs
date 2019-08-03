@@ -35,14 +35,21 @@ namespace eadLab5
         }
         protected void btnLogin_Click(object sender, EventArgs e)
         {
+            string EncodedResponseStaff = Request.Form["g-Recaptcha-Response"];
+            bool IsCaptchaValid = (ReCaptchaClass2.Validate(EncodedResponseStaff) == "true" ? true : false);
+
             validateLogin.Visible = false;
             validatePassword.Visible = false;
-            if (string.IsNullOrEmpty(tbLogin.Text) || string.IsNullOrEmpty(tbPassword.Text))
+            if (string.IsNullOrEmpty(tbLogin.Text) || string.IsNullOrEmpty(tbPassword.Text) || (!IsCaptchaValid))
             {
                 if (string.IsNullOrEmpty(tbLogin.Text))
                 { validateLogin.Visible = true; }
                 if (string.IsNullOrEmpty(tbPassword.Text))
                 { validatePassword.Visible = true; }
+                if (!IsCaptchaValid)
+                {
+                    { validateCaptcha.Visible = true; }
+                }
             }
             else
             {

@@ -138,8 +138,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AchievementAdd.aspx" />
-    <Content Include="AchievementPage.aspx" />
     <Content Include="Acknowledge.aspx" />
     <Content Include="App_Data\TimeDeposit.mdf" />
     <Content Include="App_Data\TimeDeposit_log.ldf">
@@ -157,19 +155,12 @@
     <Content Include="Content\SarasaStyleSheet.css" />
     <Content Include="Corporate.aspx" />
     <Content Include="Default.aspx" />
-    <Content Include="EditAchievement.aspx" />
-    <Content Include="EditEvent.aspx" />
     <Content Include="EditTripDetails.aspx" />
     <Content Include="Enquiry.aspx" />
-    <Content Include="EventAdd.aspx" />
-    <Content Include="EventPage.aspx" />
-    <Content Include="FAQPage.aspx" />
     <Content Include="GeneralSetting.aspx" />
     <Content Include="Images\Logo.PNG" />
     <Content Include="Images\SarasaLogo.png" />
     <Content Include="Oops.aspx" />
-    <Content Include="FeedBackFormStudent.aspx" />
-    <Content Include="FeedBacks.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\oops.png" />
     <Content Include="Interview.aspx" />
@@ -189,11 +180,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Payment.aspx" />
     <Content Include="PEMMain.aspx" />
     <Content Include="ProfilePage.aspx" />
-    <Content Include="RegisteredStudents.aspx" />
-    <Content Include="ReportAndStatistics.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.4.min.map" />
@@ -211,35 +199,14 @@
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
     <Content Include="SignUp.aspx" />
-    <Content Include="StaffViewSpecificFeedBack.aspx" />
     <Content Include="Student.aspx" />
-    <Content Include="TermDeposit.aspx" />
-    <Content Include="TermDepositPlacement.aspx" />
-    <Content Include="TermDepositUpdate.aspx" />
     <Content Include="TripDetails.aspx" />
-    <Content Include="UpdateFeedBackSubmitted.aspx" />
-    <Content Include="ViewFeedBacksSubmitted.aspx" />
-    <Content Include="ViewFeedBackStaff.aspx" />
     <Content Include="WaitingList.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AchievementAdd.aspx.cs">
-      <DependentUpon>AchievementAdd.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AchievementAdd.aspx.designer.cs">
-      <DependentUpon>AchievementAdd.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="AchievementPage.aspx.cs">
-      <DependentUpon>AchievementPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AchievementPage.aspx.designer.cs">
-      <DependentUpon>AchievementPage.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Acknowledge.aspx.cs">
       <DependentUpon>Acknowledge.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -299,6 +266,8 @@
     <Compile Include="DAL\InterestRteDAO.cs" />
     <Compile Include="DAL\Interview.cs" />
     <Compile Include="DAL\InterviewDAO.cs" />
+    <Compile Include="DAL\ReCaptchaClass.cs" />
+    <Compile Include="DAL\ReCaptchaClass2.cs" />
     <Compile Include="DAL\RegStudent.cs" />
     <Compile Include="DAL\RegStudentDAO.cs" />
     <Compile Include="DAL\Staff.cs" />
@@ -323,20 +292,6 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EditAchievement.aspx.cs">
-      <DependentUpon>EditAchievement.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EditAchievement.aspx.designer.cs">
-      <DependentUpon>EditAchievement.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="EditEvent.aspx.cs">
-      <DependentUpon>EditEvent.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EditEvent.aspx.designer.cs">
-      <DependentUpon>EditEvent.aspx</DependentUpon>
-    </Compile>
     <Compile Include="EditTripDetails.aspx.cs">
       <DependentUpon>EditTripDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -350,27 +305,6 @@
     </Compile>
     <Compile Include="Enquiry.aspx.designer.cs">
       <DependentUpon>Enquiry.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="EventAdd.aspx.cs">
-      <DependentUpon>EventAdd.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EventAdd.aspx.designer.cs">
-      <DependentUpon>EventAdd.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="EventPage.aspx.cs">
-      <DependentUpon>EventPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="EventPage.aspx.designer.cs">
-      <DependentUpon>EventPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FAQPage.aspx.cs">
-      <DependentUpon>FAQPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FAQPage.aspx.designer.cs">
-      <DependentUpon>FAQPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="GeneralSetting.aspx.cs">
       <DependentUpon>GeneralSetting.aspx</DependentUpon>
@@ -386,20 +320,6 @@
     </Compile>
     <Compile Include="Oops.aspx.designer.cs">
       <DependentUpon>Oops.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FeedBackFormStudent.aspx.cs">
-      <DependentUpon>FeedBackFormStudent.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FeedBackFormStudent.aspx.designer.cs">
-      <DependentUpon>FeedBackFormStudent.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FeedBacks.aspx.cs">
-      <DependentUpon>FeedBacks.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FeedBacks.aspx.designer.cs">
-      <DependentUpon>FeedBacks.aspx</DependentUpon>
     </Compile>
     <Compile Include="FromBodyAttribute.cs" />
     <Compile Include="HttpPostAttribute.cs" />
@@ -442,13 +362,6 @@
     <Compile Include="OverseasRegisteredList.aspx.designer.cs">
       <DependentUpon>OverseasRegisteredList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Payment.aspx.cs">
-      <DependentUpon>Payment.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Payment.aspx.designer.cs">
-      <DependentUpon>Payment.aspx</DependentUpon>
-    </Compile>
     <Compile Include="PEMMain.aspx.cs">
       <DependentUpon>PEMMain.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -464,20 +377,6 @@
       <DependentUpon>ProfilePage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisteredStudents.aspx.cs">
-      <DependentUpon>RegisteredStudents.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="RegisteredStudents.aspx.designer.cs">
-      <DependentUpon>RegisteredStudents.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ReportAndStatistics.aspx.cs">
-      <DependentUpon>ReportAndStatistics.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ReportAndStatistics.aspx.designer.cs">
-      <DependentUpon>ReportAndStatistics.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SignUp.aspx.cs">
       <DependentUpon>SignUp.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -558,6 +457,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ErrorPages\" />
+    <Folder Include="ReCaptchaV2\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -3,9 +3,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 <form id="form1" runat="server">
-    <div >
-
-            <table style="margin:auto;border:5px solid white">
+    <div>
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <table style="margin:auto;border:5px solid white">
         
         <tr>
             <td>
@@ -18,30 +18,66 @@
 
         <tr>
             <td>
-                <asp:Label ID="Label2" runat="server" Text="Password" ></asp:Label></td>
+                <asp:Label ID="Label2" runat="server" Text="Password" ></asp:Label>
+            </td>
+
             <td>
                 <asp:Textbox ID="tbPassword" runat="server" CssClass="form-control" TextMode="Password" ></asp:Textbox>
-</td>
-            <td><asp:Label ID="validatePassword" Visible="false"  runat="server" Text="Password is required!" ForeColor="Red"></asp:Label></td>
+            </td>
+
+            <td>
+                <asp:Label ID="validatePassword" Visible="false"  runat="server" Text="Password is required!" ForeColor="Red">
+                </asp:Label>
+            </td>
         </tr>
+        
         <tr>
             <td>
-                </td>
+                
+            </td>
+
             <td>
-                <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click"></asp:Button>
-                <asp:Button ID="BtnSignUp" runat="server" Text="SignUp" OnClick="btnSignUp_click"></asp:Button>
+                <div class="g-recaptcha" data-type="image" data-sitekey="6LcRgqUUAAAAAAbJUgL-FZwLdDEqJSCrsm36XD4p"></div>
+            </td>
+
+            <td>
+               
+                <asp:Label ID="validateCaptcha" runat="server" ForeColor="Red" Text="Please check the box before you can continue" Visible="False"></asp:Label>
+               
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td>
+                
             </td>
             <td>
-             </td>
-            
-        </tr>
-        <tr>
-            <td></td>
+                <asp:CheckBox ID="chkbox_rmbrMe" runat="server" Text="Remember Me" />
+
+            </td>
             <td>
+
                 <asp:Label ID="lblErrorMessage" runat="server" Text="Incorrect User Credentials" ForeColor="Red"></asp:Label>
 
             </td>
+        </tr>
+
+        <tr>
             <td></td>
+            <td>
+                <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click"></asp:Button>
+
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                &nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
     </table>   
     </div>

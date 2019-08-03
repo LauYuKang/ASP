@@ -25,9 +25,13 @@
             <td>
                 <asp:Label ID="Label2" runat="server" Text="Password:" ></asp:Label></td>
             <td>
-                <asp:Textbox ID="tbPw" runat="server" CssClass="form-control" TextMode="Password" MaxLength="16" CausesValidation="True" ></asp:Textbox><asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="tbPw" ErrorMessage="No special character" ForeColor="Red" ValidationExpression="^(?![\d\W]+$).+"></asp:RegularExpressionValidator><asp:Label ID="validatePw" Visible="False"  runat="server" ForeColor="Red"></asp:Label>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="tbPw" ErrorMessage="No special character" ForeColor="Red" ValidationExpression="^(?![\d\W]+$).+"></asp:RegularExpressionValidator>
+                <asp:Textbox ID="tbPw" runat="server" CssClass="form-control" TextMode="Password" MaxLength="16" ></asp:Textbox>
+                <asp:Label ID="pwrequirement" runat="server" Text="Minimum eight characters, at least one letter and one number"></asp:Label>
+                <div>
+                    <asp:Label ID="validatePw" Visible="False"  runat="server" ForeColor="Red"></asp:Label>
+                </div>
 </td>
+            
         </tr>
         <tr> 
             <td>

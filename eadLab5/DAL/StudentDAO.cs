@@ -136,7 +136,7 @@ namespace eadLab5.DAL
             return studList;
         }
 
-        public int InsertTD(String AdminNo, String Password, String Email, String HpNumber)
+        public int InsertTD(String AdminNo, String Password, String Email, String HpNumber, string salt)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             StringBuilder sqlStr = new StringBuilder();
@@ -146,8 +146,8 @@ namespace eadLab5.DAL
 
             //         parameterised query in values clause
             //
-            sqlStr.AppendLine("INSERT INTO Student (AdminNo, Password, Email, HpNumber) ");
-            sqlStr.AppendLine("VALUES (@paraAdmin,@paraPassword, @paraEmail, @paraHpNumber)");
+            sqlStr.AppendLine("INSERT INTO Student (AdminNo, Password, Email, HpNumber, Salt) ");
+            sqlStr.AppendLine("VALUES (@paraAdmin,@paraPassword, @paraEmail, @paraHpNumber, @parasalt)");
 
 
             // Step 2 :Instantiate SqlConnection instance and SqlCommand instance
@@ -162,6 +162,7 @@ namespace eadLab5.DAL
             sqlCmd.Parameters.AddWithValue("@paraPassword", Password);
             sqlCmd.Parameters.AddWithValue("@paraEmail", Email);
             sqlCmd.Parameters.AddWithValue("@paraHpNumber", HpNumber);
+            sqlCmd.Parameters.AddWithValue("@parasalt", salt);
 
             // Step 4 Open connection the execute NonQuery of sql command   
 
