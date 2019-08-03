@@ -112,5 +112,11 @@ namespace eadLab5
             Session["AdminNo"] = LblAdminNo.Text.ToString();
             Response.Redirect("ChangePw.aspx");
         }
+
+        protected void ButtonEnable2FA_Click(object sender, EventArgs e)
+        {
+            Session["AdminNo"] = LblAdminNo.Text.ToString();
+            Response.Redirect("2FA.aspx");
+        }
     }
 }

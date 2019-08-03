@@ -12,6 +12,23 @@ namespace eadLab5
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Audit loadAudit = new Audit();
+            AuditDAO newAuditDAO = new AuditDAO();
+            List<Audit> auditList = newAuditDAO.getAllAudit();
+            String useripaddr = loadAudit.GetIPAddress();
+            String todayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            if (auditList != null)
+            {
+                foreach (Audit currentAudit in auditList)
+                {
+                    String compareAuditIP = currentAudit.IPAddress;
+                    if (compareAuditIP == useripaddr && currentAudit.IsBanned == "T" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
+                    {
+                        Response.Redirect("Oops.aspx");
+                    }
+                }
+            }
+
             lblErrorMessage.Visible = false;
             Session["Staffid"] = null;
             Session["role"] = null;
@@ -40,8 +57,57 @@ namespace eadLab5
                 StaffLoginDAO logDao = new StaffLoginDAO();
                 logObj = logDao.getStaffById(tbLogin.Text, tbPassword.Text);
 
+                Staff staffDao = new Staff();
+                List<Staff> allStaff = staffDao.getAllstaff();
+                String isBanned = "F";
                 if (logObj == null)
                 {
+                    Audit newAudit = new Audit();
+                    AuditDAO newAuditDAO = new AuditDAO();
+                    List<Audit> auditList = newAuditDAO.getAllAudit();
+
+                    int loginCount = 0;
+                    Boolean isValidID = false;
+
+                    // is the input a valid ID?
+                    foreach (Staff currentStaff in allStaff)
+                    {
+                        if (tbLogin.Text == currentStaff.Email)
+                        {
+                            isValidID = true;
+                        }
+                    }
+
+                    if (isValidID == true && auditList != null)
+                    {
+                        // this is the user ip address
+                        String useripaddr = newAudit.GetIPAddress();
+                        String todayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        // loop all the audits
+                        foreach (Audit currentAudit in auditList)
+                        {
+                            String compareAuditIP = currentAudit.IPAddress;
+                            if (compareAuditIP == useripaddr && currentAudit.ActionType == "STAFF LOGIN FAIL" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
+                            {
+                                loginCount++;
+                            }
+                        }
+                        if (loginCount >= 8)
+                        {
+                            isBanned = "T";
+                        }
+                    }
+
+                    String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    String staffID = tbLogin.Text;
+                    String ipaddr = newAudit.GetIPAddress();
+                    newAuditDAO.InsertAudit("STAFF LOGIN FAIL", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1,isBanned);
+
+                    if (isBanned == "T")
+                    {
+                        Response.Redirect("Oops.aspx");
+                    }
+
                     lblErrorMessage.Visible = true;
                 }
                 else
@@ -51,10 +117,17 @@ namespace eadLab5
 
                     Audit newAudit = new Audit();
                     AuditDAO newAuditDAO = new AuditDAO();
-                    DateTime currentDateTime = DateTime.Now;
+                    String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     String staffID = logObj.Staffid;
                     String ipaddr = newAudit.GetIPAddress();
-                    newAuditDAO.InsertAudit("LOGIN SUCCESS", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1);
+                    newAuditDAO.InsertAudit("STAFF LOGIN SUCCESS", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1,isBanned);
+
+                    //creates a new guid every login & saves into session
+                    string guid = Guid.NewGuid().ToString();
+                    Session["AuthToken"] = guid;
+
+                    //creates cookie with the guid value
+                    Response.Cookies.Add(new HttpCookie("AuthToken", guid));
 
                     //creates a new guid every login & saves into session
                     string guid = Guid.NewGuid().ToString();

@@ -9,6 +9,11 @@
         <asp:Label ID="pageLabel" runat="server" Font-Bold="True" Font-Names="Trebuchet MS" Font-Size="XX-Large" ForeColor="Maroon" Text="Audit Log"></asp:Label>
     </div>
     
+    <div style="text-align:center;margin:auto;display:block;width:16%">
+        <asp:TextBox ID="tb_date" runat="server" CssClass="form-control" TextMode="Date" OnTextChanged="tb_date_TextChanged"  ></asp:TextBox>
+        <asp:Button ID="btn_retrieve" runat="server" Text="retrieve" OnClick="btn_retrieve_Click" />
+    </div> <br />
+
     <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="AuditId" DataSourceID="EADP" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" CellSpacing="3" HorizontalAlign="Center" Width="100%">
 
         <AlternatingRowStyle BackColor="#EEEFF9" />
@@ -23,6 +28,7 @@
             <asp:BoundField DataField="IPAddress" HeaderText="IPAddress" SortExpression="IPAddress" />
             <asp:BoundField DataField="TableName" HeaderText="TableName" SortExpression="TableName" />
             <asp:BoundField DataField="RecNumber" HeaderText="RecNumber" SortExpression="RecNumber" />
+            <asp:BoundField DataField="IsBanned" HeaderText="Banned" SortExpression="IsBanned" />
         </Columns>
         <SelectedRowStyle BackColor="DarkTurquoise" BorderStyle="Solid" />
 
@@ -32,7 +38,16 @@
             <PagerSettings Mode="NumericFirstLast" PageButtonCount="10" />
             <PagerStyle VerticalAlign="Bottom" HorizontalAlign="Right" />
     </asp:GridView>
-    <asp:SqlDataSource ID="EADP" runat="server" ConnectionString="<%$ ConnectionStrings:EADPConnectionString %>" SelectCommand="SELECT * FROM [AuditLog]"></asp:SqlDataSource>
+
+
+
+  
+    <asp:SqlDataSource ID="EADP" runat="server" ConnectionString="<%$ ConnectionStrings:EADPConnectionString %>" 
+        SelectCommand="SELECT * FROM [AuditLog]" FilterExpression="ActionDate LIKE '{0}%'">
+        <FilterParameters>
+            <asp:ControlParameter Name="date" ControlID="tb_date" PropertyName="Text" />
+        </FilterParameters>
+    </asp:SqlDataSource>
 </form>
 
 </asp:Content>
