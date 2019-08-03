@@ -5,6 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using System.Security.Cryptography;
 
 
 namespace eadLab5
@@ -14,6 +18,10 @@ namespace eadLab5
 
         string sessionid;
         string strSessionId;
+        static string finalHash;
+        static string salt;
+
+        string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             Audit loadAudit = new Audit();
@@ -33,11 +41,6 @@ namespace eadLab5
                 }
             }
 
-            lblErrorMessage.Visible = false;
-            Session["AdminNo"] = null;
-            Session["role"] = null;
-
-
             //store session id in cookie
             sessionid = HttpContext.Current.Session.SessionID;
             Response.Cookies.Add(new HttpCookie("sessionidcookie", sessionid));
@@ -47,13 +50,13 @@ namespace eadLab5
             if (!IsPostBack)
             {
                 //if value of cookie is available
-                if(Request.Cookies["val1"] !=null && Request.Cookies["val2"] != null)
+                if (Request.Cookies["val1"] != null && Request.Cookies["val2"] != null)
                 {
 
                     tbLogin.Text = Request.Cookies["val1"].Value;
                     tbPassword.Attributes["value"] = Request.Cookies["val2"].Value;
                 }
-                
+
             }
 
             //keep the checkbox checked if "remember me" was checked
@@ -63,12 +66,116 @@ namespace eadLab5
                 {
                     chkbox_rmbrMe.Checked = (bool)Session["checkbox"];
                 }
-                
-                
+
+
             }
-            
+
+            lblErrorMessage.Visible = false;
+            Session["AdminNo"] = null;
+            Session["role"] = null;
         }
 
+
+
+
+
+        protected string getDBSalt(string userid)
+        {
+            string s = null;
+            SqlConnection connection = new SqlConnection(MYDBConnectionString);
+            string sql = "select Salt FROM [Student] WHERE AdminNo=@USERID";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@USERID", userid);
+            try
+            {
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["Salt"] != null)
+                        {
+                            if (reader["Salt"] != DBNull.Value)
+                            {
+                                s = reader["Salt"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            finally { connection.Close(); }
+            return s;
+        }
+
+
+        protected string get2FA(string userid)
+        {
+            string s = null;
+            SqlConnection connection = new SqlConnection(MYDBConnectionString);
+            string sql = "select FA FROM [Student] WHERE AdminNo=@USERID";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@USERID", userid);
+            try
+            {
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["FA"] != null)
+                        {
+                            if (reader["FA"] != DBNull.Value)
+                            {
+                                s = reader["FA"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            finally { connection.Close(); }
+            return s;
+        }
+        protected string getDBHash(string userid)
+        {
+            string h = null;
+            SqlConnection connection = new SqlConnection(MYDBConnectionString);
+            string sql = "select Password FROM [Student] WHERE AdminNo=@USERID";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@USERID", userid);
+            try
+            {
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        if (reader["Password"] != null)
+                        {
+                            if (reader["Password"] != DBNull.Value)
+                            {
+                                h = reader["Password"].ToString();
+                            }
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            finally { connection.Close(); }
+            return h;
+        }
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string EncodedResponse = Request.Form["g-Recaptcha-Response"];
@@ -180,8 +287,7 @@ namespace eadLab5
                         
                     }
 
-                    Session["AdminNo"] = stuObj.AdminNo.Trim();
-                    Session["role"] = stuObj.Year;
+
 
                     Audit newAudit = new Audit();
                     AuditDAO newAuditDAO = new AuditDAO();
@@ -191,16 +297,36 @@ namespace eadLab5
                     newAuditDAO.InsertAudit("STUDENT LOGIN SUCCESS", currentDateTime, "NIL", AdminNo, ipaddr, "NIL", -1, isBanned);
 
 
-                    //creates a new guid every login & saves into session
-                    string guid = Guid.NewGuid().ToString();
-                    Session["AuthToken"] = guid;
+                    
+                    string userid = tbLogin.Text.ToString().Trim();
+                    string af = get2FA(userid);
+                    if (af == "1")
+                    {
+                        Session["AdminNo"] = stuObj.AdminNo;
+                        Session["role"] = stuObj.Year;
+                        //creates a new guid every login & saves into session
+                        string guid = Guid.NewGuid().ToString();
+                        Session["AuthToken"] = guid;
 
-                    //creates cookie with the guid value
-                    Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                        //creates cookie with the guid value
+                        Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                        Response.Redirect("OTP.aspx");
+                        string roleformasterpage = Session["role"].ToString();
 
+                    }
+                    else
+                    {
+                        Session["AdminNo"] = stuObj.AdminNo;
+                        Session["role"] = stuObj.Year;
+                        //creates a new guid every login & saves into session
+                        string guid = Guid.NewGuid().ToString();
+                        Session["AuthToken"] = guid;
 
-                    Response.Redirect("TripDetails.aspx");
-                    string roleformasterpage = Session["role"].ToString();
+                        //creates cookie with the guid value
+                        Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                        Response.Redirect("TripDetails.aspx");
+                        string roleformasterpage = Session["role"].ToString();
+                    }
                 }
             }
         }
@@ -210,6 +336,11 @@ namespace eadLab5
         protected void btnSignUp_click(object sender, EventArgs e)
         {
             Response.Redirect("SignUp.aspx");
+        }
+
+        protected void ButtonForgotPass_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("EmailConfirmation.aspx");
         }
     }
 }

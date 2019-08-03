@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-  <style type="text/css">
+    <style type="text/css">
         .auto-style1 {
             width: 292px;
         }
@@ -62,6 +62,7 @@
                     <asp:Label ID="Lbl_Summary" runat="server"></asp:Label>
                 </td>
             </tr>
+            
         </table>
         <div>
                                 <asp:Button class="btn btn-secondary" ID="SettingDetails" runat="server" Text="Setting" OnClick="BtnSettingDetails"  />

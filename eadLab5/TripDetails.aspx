@@ -76,7 +76,7 @@
     <div class="container">
         <button class="btn btn-secondary btn-lg add-trip-btn" type="button" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus"></i></button>
     </div>
-    <% } %>
+    <% } %> 
     <div id="trips-tab">
         <nav class="nav nav-pills nav-justified">
             <% if (tripType == null)
