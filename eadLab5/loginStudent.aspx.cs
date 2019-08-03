@@ -6,62 +6,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace eadLab5
-{
-    public partial class loginStudent : System.Web.UI.Page
-    {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            lblErrorMessage.Visible = false;
-            Session["AdminNo"] = null;
-            Session["role"] = null;
-        }
-
-        protected void btnLogin_Click(object sender, EventArgs e)
-        {
-            tbLogin.Text.ToUpper();
-            validateLogin.Visible = false;
-            validatePassword.Visible = false;
-            if (string.IsNullOrEmpty(tbLogin.Text) || string.IsNullOrEmpty(tbPassword.Text))
-            {
-                if (string.IsNullOrEmpty(tbLogin.Text))
-                { validateLogin.Visible = true; }
-                if (string.IsNullOrEmpty(tbPassword.Text))
-                { validatePassword.Visible = true; }
-            }
-            else
-            {
-                StudentLogin stuObj = new StudentLogin();
-                StudentLoginDAO stuDao = new StudentLoginDAO();
-                stuObj = stuDao.getStudentById(tbLogin.Text, tbPassword.Text);
-                if (stuObj == null)
-                {
-                    lblErrorMessage.Visible = true;
-                }
-                else
-                {
-                    Session["AdminNo"] = stuObj.AdminNo;
-                    Session["role"] = stuObj.Year;
-                    Response.Redirect("TripDetails.aspx");
-                    string roleformasterpage = Session["role"].ToString();
-                }
-            }
-        }
-
-        protected void btnSignUp_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("SignUp.aspx");
-        }
-     }
-}
-using eadLab5.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
 
 namespace eadLab5
 {
@@ -75,8 +19,7 @@ namespace eadLab5
             
             //creates a cookie upon page load
             HttpCookie rmbrMeCookie = new HttpCookie("rmbrMeCookie");
-            //rmbrMeCookie["val1"] = tbLogin.Text;
-            //rmbrMeCookie["val2"] = tbPassword.Text;
+            
 
             if (!IsPostBack)
             {
@@ -131,6 +74,8 @@ namespace eadLab5
                 if (stuObj == null)
                 {
                     lblErrorMessage.Visible = true;
+                    Response.Cookies["val1"].Value = string.Empty;
+                    Response.Cookies["val2"].Value = string.Empty;
                 }
                 
 
@@ -153,6 +98,15 @@ namespace eadLab5
 
                     Session["AdminNo"] = stuObj.AdminNo;
                     Session["role"] = stuObj.Year;
+
+                    //creates a new guid every login & saves into session
+                    string guid = Guid.NewGuid().ToString();
+                    Session["AuthToken"] = guid;
+
+                    //creates cookie with the guid value
+                    Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+
+
                     Response.Redirect("TripDetails.aspx");
                     string roleformasterpage = Session["role"].ToString();
                 }
