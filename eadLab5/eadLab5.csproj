@@ -291,14 +291,12 @@
     </Compile>
     <Compile Include="AchievementAdd.aspx.cs">
       <DependentUpon>AchievementAdd.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AchievementAdd.aspx.designer.cs">
       <DependentUpon>AchievementAdd.aspx</DependentUpon>
     </Compile>
     <Compile Include="AchievementPage.aspx.cs">
       <DependentUpon>AchievementPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AchievementPage.aspx.designer.cs">
       <DependentUpon>AchievementPage.aspx</DependentUpon>
@@ -369,6 +367,7 @@
     <Compile Include="DAL\InterviewDAO.cs" />
     <Compile Include="DAL\RegStudent.cs" />
     <Compile Include="DAL\RegStudentDAO.cs" />
+    <Compile Include="DAL\Staff.cs" />
     <Compile Include="DAL\StaffLogin.cs" />
     <Compile Include="DAL\StaffLoginDAO.cs" />
     <Compile Include="DAL\Student.cs" />
@@ -399,14 +398,12 @@
     </Compile>
     <Compile Include="EditAchievement.aspx.cs">
       <DependentUpon>EditAchievement.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EditAchievement.aspx.designer.cs">
       <DependentUpon>EditAchievement.aspx</DependentUpon>
     </Compile>
     <Compile Include="EditEvent.aspx.cs">
       <DependentUpon>EditEvent.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EditEvent.aspx.designer.cs">
       <DependentUpon>EditEvent.aspx</DependentUpon>
@@ -441,21 +438,18 @@
     </Compile>
     <Compile Include="EventAdd.aspx.cs">
       <DependentUpon>EventAdd.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EventAdd.aspx.designer.cs">
       <DependentUpon>EventAdd.aspx</DependentUpon>
     </Compile>
     <Compile Include="EventPage.aspx.cs">
       <DependentUpon>EventPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EventPage.aspx.designer.cs">
       <DependentUpon>EventPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="FAQPage.aspx.cs">
       <DependentUpon>FAQPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FAQPage.aspx.designer.cs">
       <DependentUpon>FAQPage.aspx</DependentUpon>
@@ -477,14 +471,12 @@
     </Compile>
     <Compile Include="FeedBackFormStudent.aspx.cs">
       <DependentUpon>FeedBackFormStudent.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FeedBackFormStudent.aspx.designer.cs">
       <DependentUpon>FeedBackFormStudent.aspx</DependentUpon>
     </Compile>
     <Compile Include="FeedBacks.aspx.cs">
       <DependentUpon>FeedBacks.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FeedBacks.aspx.designer.cs">
       <DependentUpon>FeedBacks.aspx</DependentUpon>
@@ -539,7 +531,6 @@
     </Compile>
     <Compile Include="Payment.aspx.cs">
       <DependentUpon>Payment.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Payment.aspx.designer.cs">
       <DependentUpon>Payment.aspx</DependentUpon>
@@ -561,14 +552,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredStudents.aspx.cs">
       <DependentUpon>RegisteredStudents.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RegisteredStudents.aspx.designer.cs">
       <DependentUpon>RegisteredStudents.aspx</DependentUpon>
     </Compile>
     <Compile Include="ReportAndStatistics.aspx.cs">
       <DependentUpon>ReportAndStatistics.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ReportAndStatistics.aspx.designer.cs">
       <DependentUpon>ReportAndStatistics.aspx</DependentUpon>
@@ -596,7 +585,6 @@
     </Compile>
     <Compile Include="StaffViewSpecificFeedBack.aspx.cs">
       <DependentUpon>StaffViewSpecificFeedBack.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="StaffViewSpecificFeedBack.aspx.designer.cs">
       <DependentUpon>StaffViewSpecificFeedBack.aspx</DependentUpon>
@@ -610,21 +598,18 @@
     </Compile>
     <Compile Include="TermDeposit.aspx.cs">
       <DependentUpon>TermDeposit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TermDeposit.aspx.designer.cs">
       <DependentUpon>TermDeposit.aspx</DependentUpon>
     </Compile>
     <Compile Include="TermDepositPlacement.aspx.cs">
       <DependentUpon>TermDepositPlacement.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TermDepositPlacement.aspx.designer.cs">
       <DependentUpon>TermDepositPlacement.aspx</DependentUpon>
     </Compile>
     <Compile Include="TermDepositUpdate.aspx.cs">
       <DependentUpon>TermDepositUpdate.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TermDepositUpdate.aspx.designer.cs">
       <DependentUpon>TermDepositUpdate.aspx</DependentUpon>
@@ -645,21 +630,18 @@
     </Compile>
     <Compile Include="UpdateFeedBackSubmitted.aspx.cs">
       <DependentUpon>UpdateFeedBackSubmitted.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UpdateFeedBackSubmitted.aspx.designer.cs">
       <DependentUpon>UpdateFeedBackSubmitted.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewFeedBacksSubmitted.aspx.cs">
       <DependentUpon>ViewFeedBacksSubmitted.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ViewFeedBacksSubmitted.aspx.designer.cs">
       <DependentUpon>ViewFeedBacksSubmitted.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewFeedBackStaff.aspx.cs">
       <DependentUpon>ViewFeedBackStaff.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ViewFeedBackStaff.aspx.designer.cs">
       <DependentUpon>ViewFeedBackStaff.aspx</DependentUpon>
