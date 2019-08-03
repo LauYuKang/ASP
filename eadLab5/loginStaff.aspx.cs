@@ -56,6 +56,13 @@ namespace eadLab5
                     String ipaddr = newAudit.GetIPAddress();
                     newAuditDAO.InsertAudit("LOGIN SUCCESS", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1);
 
+                    //creates a new guid every login & saves into session
+                    string guid = Guid.NewGuid().ToString();
+                    Session["AuthToken"] = guid;
+
+                    //creates cookie with the guid value
+                    Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+
                     Response.Redirect("TripDetails.aspx");
                     
                 }

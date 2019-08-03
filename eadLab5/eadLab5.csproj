@@ -383,13 +383,6 @@
     <Compile Include="SignUp.aspx.designer.cs">
       <DependentUpon>SignUp.aspx</DependentUpon>
     </Compile>
-    <Compile Include="StaffViewSpecificFeedBack.aspx.cs">
-      <DependentUpon>StaffViewSpecificFeedBack.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="StaffViewSpecificFeedBack.aspx.designer.cs">
-      <DependentUpon>StaffViewSpecificFeedBack.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Student.aspx.cs">
       <DependentUpon>Student.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -397,54 +390,12 @@
     <Compile Include="Student.aspx.designer.cs">
       <DependentUpon>Student.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TermDeposit.aspx.cs">
-      <DependentUpon>TermDeposit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TermDeposit.aspx.designer.cs">
-      <DependentUpon>TermDeposit.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TermDepositPlacement.aspx.cs">
-      <DependentUpon>TermDepositPlacement.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TermDepositPlacement.aspx.designer.cs">
-      <DependentUpon>TermDepositPlacement.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="TermDepositUpdate.aspx.cs">
-      <DependentUpon>TermDepositUpdate.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TermDepositUpdate.aspx.designer.cs">
-      <DependentUpon>TermDepositUpdate.aspx</DependentUpon>
-    </Compile>
     <Compile Include="TripDetails.aspx.cs">
       <DependentUpon>TripDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TripDetails.aspx.designer.cs">
       <DependentUpon>TripDetails.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="UpdateFeedBackSubmitted.aspx.cs">
-      <DependentUpon>UpdateFeedBackSubmitted.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UpdateFeedBackSubmitted.aspx.designer.cs">
-      <DependentUpon>UpdateFeedBackSubmitted.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ViewFeedBacksSubmitted.aspx.cs">
-      <DependentUpon>ViewFeedBacksSubmitted.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ViewFeedBacksSubmitted.aspx.designer.cs">
-      <DependentUpon>ViewFeedBacksSubmitted.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ViewFeedBackStaff.aspx.cs">
-      <DependentUpon>ViewFeedBackStaff.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ViewFeedBackStaff.aspx.designer.cs">
-      <DependentUpon>ViewFeedBackStaff.aspx</DependentUpon>
     </Compile>
     <Compile Include="WaitingList.aspx.cs">
       <DependentUpon>WaitingList.aspx</DependentUpon>
