@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -10,6 +11,8 @@ namespace eadLab5
 {
     public partial class loginStaff : System.Web.UI.Page
     {
+        string email = null;
+        string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             Audit loadAudit = new Audit();
@@ -33,6 +36,9 @@ namespace eadLab5
             Session["Staffid"] = null;
             Session["role"] = null;
         }
+
+        
+
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string EncodedResponseStaff = Request.Form["g-Recaptcha-Response"];
@@ -100,6 +106,7 @@ namespace eadLab5
 
                     String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     String staffID = tbLogin.Text;
+                    String email = tbLogin.Text;
                     String ipaddr = newAudit.GetIPAddress();
                     newAuditDAO.InsertAudit("STAFF LOGIN FAIL", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1,isBanned);
 
@@ -112,8 +119,7 @@ namespace eadLab5
                 }
                 else
                 {
-                    Session["Staffid"] = logObj.Staffid;
-                    Session["role"] = logObj.Role;
+                    
 
                     Audit newAudit = new Audit();
                     AuditDAO newAuditDAO = new AuditDAO();
@@ -122,17 +128,73 @@ namespace eadLab5
                     String ipaddr = newAudit.GetIPAddress();
                     newAuditDAO.InsertAudit("STAFF LOGIN SUCCESS", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1,isBanned);
 
+
+                    string email = tbLogin.Text.ToString();
+                    string af = get2FA(email);
+                    if (af == "1")
+                    {
+                        Session["Staffid"] = logObj.Staffid;
+                        Session["role"] = logObj.Role;
+                        //creates a new guid every login & saves into session
+                        string guid = Guid.NewGuid().ToString();
+                        Session["AuthToken"] = guid;
+
+                        //creates cookie with the guid value
+                        Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                        Response.Redirect("OTPStaff.aspx");
+                        string roleformasterpage = Session["role"].ToString();
+
+                    }
+                    else
+                    {
+                        Session["Staffid"] = logObj.Staffid;
+                        Session["role"] = logObj.Role;
+                        //creates a new guid every login & saves into session
+                        string guid = Guid.NewGuid().ToString();
+                        Session["AuthToken"] = guid;
+
+                        //creates cookie with the guid value
+                        Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                        Response.Redirect("TripDetails.aspx");
+                        string roleformasterpage = Session["role"].ToString();
+                    }
+
                     //creates a new guid every login & saves into session
-                    string guid = Guid.NewGuid().ToString();
-                    Session["AuthToken"] = guid;
-
-                    //creates cookie with the guid value
-                    Response.Cookies.Add(new HttpCookie("AuthToken", guid));
-
-                    Response.Redirect("TripDetails.aspx");
                     
                 }
             }
+        }
+
+        protected string get2FA(string email)
+        {
+            string s = null;
+            SqlConnection connection = new SqlConnection(MYDBConnectionString);
+            string sql = "select FA FROM [Staff] WHERE Email=@email";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@email", email);
+            try
+            {
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (reader["FA"] != null)
+                        {
+                            if (reader["FA"] != DBNull.Value)
+                            {
+                                s = reader["FA"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            finally { connection.Close(); }
+            return s;
         }
     }
 }
