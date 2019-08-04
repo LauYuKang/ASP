@@ -20,6 +20,13 @@
                 <asp:TextBox style="text-transform:uppercase" ID ="tbAdminNo" CssClass="form-control" runat="server" MaxLength="7"></asp:TextBox><asp:Label ID="validateAdminNo" Visible="False" runat="server" ForeColor="Red"></asp:Label>
 </td>
         </tr>
+                <tr>
+            <td>
+                <asp:Label ID="Label3" runat="server" Text="Current Academic Year:"></asp:Label></td>
+            <td>
+                <asp:TextBox ID ="tbYear" CssClass="form-control" runat="server" MaxLength="1" TextMode="Number"></asp:TextBox><asp:Label ID="validateYear" Visible="False" runat="server" ForeColor="Red"></asp:Label>
+</td>
+        </tr>
 
         <tr> 
             <td>
@@ -54,13 +61,23 @@
                 <asp:Textbox ID="tbPhone" runat="server" CssClass="form-control" MaxLength="8" TextMode="Phone" ></asp:Textbox><asp:Label ID="validatePhoneNo" Visible="False"  runat="server" ForeColor="Red"></asp:Label>
 </td>
         </tr>
+                <tr>
+                    <td>
+                        <asp:Label ID="lblverification" runat="server" Text="Verification Code:"></asp:Label>
+                        </td>
+                    <td>
+                        <asp:TextBox ID="tbVerification" Visible="False" CssClass="form-control" runat="server"></asp:TextBox><asp:Label ID="validateValification" Visible="False"  runat="server" ForeColor="Red"></asp:Label>
+                    </td>
+                </tr>
         <tr>
             <td class="auto-style1">
                 </td>
             <td class="auto-style1">
-                <asp:Button ID="btnSignUp" runat="server" Text="Sign Up" OnClick="btnSignUp_Click"></asp:Button></td>
+                <asp:Button ID="btnSignUp" runat="server" Text="Sign Up" OnClick="btnSignUp_Click"></asp:Button>
+            </td>
             <td class="auto-style1"></td>
         </tr>
+
                 <tr>
             <td></td>
             <td>
@@ -69,6 +86,7 @@
             </td>
             <td></td>
         </tr>
+                
     </table>   
     </div>
     </form>

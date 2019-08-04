@@ -9,17 +9,15 @@ using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using System.Net;
 using System.Data.SqlClient;
-using System.Web.SessionState;
-using System.Data;
-
 
 namespace eadLab5
 {
-    public partial class OTP : System.Web.UI.Page
+    public partial class OTPStaff : System.Web.UI.Page
     {
 
         protected string role = null;
-        public static string adminNo = null;
+        public static string email = null;
+        public static string Staffemail = null;
         public static string Name = null;
         public static int Phone = 0;
         public string otp = null;
@@ -27,45 +25,27 @@ namespace eadLab5
         public string password = null;
         string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
 
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            // in page load, send otp, send to database, check if textbox is same as database value, if same log in, if not try again
-            // Find your Account Sid and Token at twilio.com/console
-            // DANGER! This is insecure. See http://twil.io/secure
-
-            Response.Cookies["sessionidcookie"].Expires = DateTime.Now.AddDays(-1);
-            Response.Cookies["staffsessionidcookie"].Expires = DateTime.Now.AddDays(-1);
-
-            SessionIDManager Manager = new SessionIDManager();
-            string NewID = Manager.CreateSessionID(Context);
-            string OldID = Context.Session.SessionID;
-            bool redirected = false;
-            bool IsAdded = false;
-            Manager.SaveSessionID(Context, NewID, out redirected, out IsAdded);
-
             if (Session["role"] != null)
             {
                 role = Session["role"].ToString();
                 if (role == "Incharge" || role == "Teacher")
                 {
-                    adminNo = null;
+                    email = Session["Staffid"].ToString();
+                    Session["role"] = null;
                 }
                 else if (role == "1" || role == "2" || role == "3")
                 {
-                    adminNo = Session["AdminNo"].ToString();
-                    Session["role"] = null;
+                    email = null;
                 }
             }
+            string Name = GetStudentName(email);
+            string Staffemail = GetStaffEmail(email);
+            int Phone = GetHpNumber(email);
+            string otps = GetOTP(email);
+            string password = GetPassword(email);
 
-
-
-
-
-            string Name = GetStudentName(adminNo);
-            int Phone = GetHpNumber(adminNo);
-            string otps = GetOTP(adminNo);
-            string password = GetPassword(adminNo);
 
             if (!IsPostBack)
             {
@@ -96,9 +76,9 @@ namespace eadLab5
                     }
 
                     SqlConnection connection = new SqlConnection(MYDBConnectionString);
-                    var qry = "UPDATE [Student] SET OTP = @otp WHERE AdminNo=@adminNo";
+                    var qry = "UPDATE [Staff] SET OTP = @otp WHERE Staffid=@email";
                     var cmdconnection = new SqlCommand(qry, connection);
-                    cmdconnection.Parameters.AddWithValue("@adminNo", adminNo);
+                    cmdconnection.Parameters.AddWithValue("@email", email);
                     cmdconnection.Parameters.AddWithValue("@otp", otp);
                     connection.Open();
                     cmdconnection.ExecuteNonQuery();
@@ -115,14 +95,16 @@ namespace eadLab5
 
                     var message = MessageResource.Create(
 
-                        body: Name + ", your otp is "+ otp  ,
+                        body: Name + ", your otp is " + otp,
                         from: new Twilio.Types.PhoneNumber("+19384448461"),
-                        to: new Twilio.Types.PhoneNumber("+65"+Phone)
+                        to: new Twilio.Types.PhoneNumber("+6591995179")
                     );
 
                     Console.WriteLine(message.Sid);
                 }
             }
+
+
         }
 
         protected void ButtonOTP_Click(object sender, EventArgs e)
@@ -130,17 +112,17 @@ namespace eadLab5
             if (TextBoxOTP.Text.ToString() == otp.ToString())
             {
 
-                StudentLogin stuObj = new StudentLogin();
-                StudentLoginDAO stuDao = new StudentLoginDAO();
-                stuObj = stuDao.getStudentById(adminNo, password);
-                if (stuObj == null)
+                StaffLogin logObj = new StaffLogin();
+                StaffLoginDAO logDao = new StaffLoginDAO();
+                logObj = logDao.getStaffById(Staffemail, password);
+                if (logObj == null)
                 {
-                    Labelerror.Text = "gg canot log in" ;
+                    Labelerror.Text = "gg canot log in";
                 }
                 else
                 {
-                    Session["AdminNo"] = stuObj.AdminNo;
-                    Session["role"] = stuObj.Year;
+                    Session["Staffid"] = logObj.Staffid;
+                    Session["role"] = logObj.Role;
                     Response.Redirect("TripDetails.aspx");
                     string roleformasterpage = Session["role"].ToString();
 
@@ -149,11 +131,11 @@ namespace eadLab5
                         role = Session["role"].ToString();
                         if (role == "Incharge" || role == "Teacher")
                         {
-                            adminNo = null;
+                            email = Session["Staffid"].ToString();
                         }
                         else if (role == "1" || role == "2" || role == "3")
                         {
-                            adminNo = Session["AdminNo"].ToString();
+                            email = null;
                         }
                     }
                     Response.Redirect("TripDetails.aspx");
@@ -166,16 +148,14 @@ namespace eadLab5
             }
         }
 
-        
 
-
-        protected string GetStudentName(string adminNo)
+        protected string GetStudentName(string email)
         {
             string h = null;
             SqlConnection connection = new SqlConnection(MYDBConnectionString);
-            string sql = "SELECT StudentName FROM [Student] WHERE AdminNo=@adminNo";
+            string sql = "SELECT Name FROM [Staff] WHERE Staffid=@email";
             SqlCommand command = new SqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@adminNo", adminNo);
+            command.Parameters.AddWithValue("@email", email);
             try
             {
                 connection.Open();
@@ -184,11 +164,11 @@ namespace eadLab5
 
                     while (reader.Read())
                     {
-                        if (reader["StudentName"] != null)
+                        if (reader["Name"] != null)
                         {
-                            if (reader["StudentName"] != DBNull.Value)
+                            if (reader["Name"] != DBNull.Value)
                             {
-                                h = reader["StudentName"].ToString();
+                                h = reader["Name"].ToString();
                                 Name = h;
                             }
                         }
@@ -204,13 +184,49 @@ namespace eadLab5
             return h;
         }
 
-        protected string GetOTP(string adminNo)
+        protected string GetStaffEmail(string staffemail)
         {
             string h = null;
             SqlConnection connection = new SqlConnection(MYDBConnectionString);
-            string sql = "SELECT OTP FROM [Student] WHERE AdminNo=@adminNo";
+            string sql = "SELECT Email FROM [Staff] WHERE Staffid=@email";
             SqlCommand command = new SqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@adminNo", adminNo);
+            command.Parameters.AddWithValue("@email", email);
+            try
+            {
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+
+                    while (reader.Read())
+                    {
+                        if (reader["Email"] != null)
+                        {
+                            if (reader["Email"] != DBNull.Value)
+                            {
+                                h = reader["Email"].ToString();
+                                Staffemail = h;
+                            }
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            finally { connection.Close(); }
+            return h;
+        }
+
+
+        protected string GetOTP(string email)
+        {
+            string h = null;
+            SqlConnection connection = new SqlConnection(MYDBConnectionString);
+            string sql = "SELECT OTP FROM [Staff] WHERE Staffid=@email";
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@email", email);
             try
             {
                 connection.Open();
@@ -239,15 +255,13 @@ namespace eadLab5
             return h;
         }
 
-
-
-        protected int GetHpNumber(string adminNo)
+        protected int GetHpNumber(string email)
         {
             int h = 0;
             SqlConnection connection = new SqlConnection(MYDBConnectionString);
-            string sql = "SELECT HpNumber FROM [Student] WHERE AdminNo=@adminNo";
+            string sql = "SELECT HpNumber FROM [Staff] WHERE Staffid=@email";
             SqlCommand command = new SqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@adminNo", adminNo);
+            command.Parameters.AddWithValue("@email", email);
             try
             {
                 connection.Open();
@@ -276,13 +290,13 @@ namespace eadLab5
             return h;
         }
 
-        protected string GetPassword(string adminNo)
+        protected string GetPassword(string email)
         {
             string h = null;
             SqlConnection connection = new SqlConnection(MYDBConnectionString);
-            string sql = "SELECT Password FROM [Student] WHERE AdminNo=@adminNo";
+            string sql = "SELECT Password FROM [Staff] WHERE Staffid=@email";
             SqlCommand command = new SqlCommand(sql, connection);
-            command.Parameters.AddWithValue("@adminNo", adminNo);
+            command.Parameters.AddWithValue("@email", email);
             try
             {
                 connection.Open();
@@ -312,5 +326,13 @@ namespace eadLab5
         }
 
 
+
+
     }
+
+
+
+
+
+
 }
