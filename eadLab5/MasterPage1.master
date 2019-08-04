@@ -95,7 +95,7 @@
                         <li class="nav-item">
                             <%if (Session["role"].ToString() == "Teacher" || Session["role"].ToString() == "Incharge")
                                 { %>
-                        <a class="nav-link" href="loginStaff.aspx">Log Out</a>
+                        <a class="nav-link" href="loginStaff.aspx" runat="server" onserverclick="LogOutStaff">Log Out</a>
                             <%}
                             else if (Session["role"].ToString() == "1" ||  Session["role"].ToString() == "2" || Session["role"].ToString() == "3" )
                             { %>

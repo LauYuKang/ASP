@@ -10,6 +10,8 @@ namespace eadLab5
 {
     public partial class loginStaff : System.Web.UI.Page
     {
+
+        string staffsessionid;
         protected void Page_Load(object sender, EventArgs e)
         {
             Audit loadAudit = new Audit();
@@ -32,6 +34,13 @@ namespace eadLab5
             lblErrorMessage.Visible = false;
             Session["Staffid"] = null;
             Session["role"] = null;
+
+            Response.Cookies["sessionidcookie"].Expires = DateTime.Now.AddDays(-1);
+
+            staffsessionid = HttpContext.Current.Session.SessionID;
+            Response.Cookies.Add(new HttpCookie("staffsessionidcookie", staffsessionid));
+            
+
         }
         protected void btnLogin_Click(object sender, EventArgs e)
         {
@@ -129,12 +138,7 @@ namespace eadLab5
                     //creates cookie with the guid value
                     Response.Cookies.Add(new HttpCookie("AuthToken", guid));
 
-                    //creates a new guid every login & saves into session
-                    string guid = Guid.NewGuid().ToString();
-                    Session["AuthToken"] = guid;
-
-                    //creates cookie with the guid value
-                    Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                    
 
                     Response.Redirect("TripDetails.aspx");
                     
