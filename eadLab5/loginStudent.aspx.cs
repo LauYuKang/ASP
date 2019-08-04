@@ -20,7 +20,7 @@ namespace eadLab5
         string sessionid;
         static string finalHash;
         static string salt;
-        HttpCookie cookieStudent = new HttpCookie("studentCookie");
+        HttpCookie cookieStudent = new HttpCookie("studentCookie"); 
 
         string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
@@ -47,7 +47,7 @@ namespace eadLab5
             //store session id in cookie
             sessionid = HttpContext.Current.Session.SessionID;
             Response.Cookies.Add(new HttpCookie("sessionidcookie", sessionid));
-
+            
 
             if (!IsPostBack)
             {
@@ -73,11 +73,11 @@ namespace eadLab5
                 if (Request.Cookies["rmbrMeCookie"] != null)
                 {
                     chkbox_rmbrMe.Checked = Request.Cookies["rmbrMeCookie"].Values["chkbox_rmbrMe"].ToString() != "1" ? true : false;
-
+                    
                 }
-
+                
             }
-
+            
 
             lblErrorMessage.Visible = false;
             Session["AdminNo"] = null;
@@ -215,9 +215,7 @@ namespace eadLab5
             {
                 StudentLogin stuObj = new StudentLogin();
                 StudentLoginDAO stuDao = new StudentLoginDAO();
-                StudentLogin stu = new StudentLogin();
-                StudentLoginDAO stuD = new StudentLoginDAO();
-                stuObj = stuDao.getStudentById(tbLogin.Text, tbPassword.Text);
+                stuObj = stuDao.getStudentById(adminNo);
                 if (stuObj == null)
                 {
                     lblErrorMessage.Visible = true;
@@ -225,8 +223,8 @@ namespace eadLab5
                 else
                 {
                     SHA512Managed hashing = new SHA512Managed();
-                    string dbHash = getDBHash(tbLogin.Text);
-                    string dbSalt = getDBSalt(tbLogin.Text);
+                    string dbHash = getDBHash(adminNo);
+                    string dbSalt = getDBSalt(adminNo);
                     if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
                     {
                         string pwdWithSalt = tbPassword.Text + dbSalt;
@@ -239,7 +237,6 @@ namespace eadLab5
                         {
                             if (chkbox_rmbrMe.Checked)
                             {
-
                                 //creates a cookie for checkbox
                                 HttpCookie rmbrMe = new HttpCookie("rmbrMeCookie");
                                 rmbrMe.Values.Add("chkbox_rmbrMe", chkbox_rmbrMe.Checked.ToString());
@@ -248,8 +245,6 @@ namespace eadLab5
 
                                 cookieStudent.Value = adminNo;
                                 Response.Cookies.Add(cookieStudent);
-
-
                             }
                             else
                             {
@@ -365,76 +360,11 @@ namespace eadLab5
 
                     else
                     {
-
-                        Audit newAudit = new Audit();
-                        AuditDAO newAuditDAO = new AuditDAO();
-                        List<Audit> auditList = newAuditDAO.getAllAudit();
-                        String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        String AdminNo = stuObj.AdminNo;
-                        String ipaddr = newAudit.GetIPAddress();
-
-                        foreach (Audit currentAudit in auditList)
-                        {
-                            String compareAuditIP = currentAudit.IPAddress;
-                            if (tbLogin.Text == currentAudit.AdminNo && currentDateTime.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10) && currentAudit.IsBanned == "T")
-                            {
-                                newAuditDAO.InsertAudit("STUDENT LOGIN FAIL", currentDateTime, "NIL", AdminNo, ipaddr, "NIL", -1, "T");
-                                Response.Redirect("Oops.aspx");
-                            }
-                        }
-                        if (chkbox_rmbrMe.Checked)
-                        {
-                            //creates a session state for checkbox
-                            Session["checkbox"] = chkbox_rmbrMe.Checked;
-                            Response.Cookies["val1"].Value = tbLogin.Text;
-                            Response.Cookies["val2"].Value = tbPassword.Text;
-                        }
-                        else
-                        {
-                            Session["checkbox"] = null;
-                            Response.Cookies["val1"].Expires = DateTime.Now.AddMonths(-1);
-                            Response.Cookies["val2"].Expires = DateTime.Now.AddMonths(-1);
-
-                        }
-                        string isBanned = "F";
-
-                        newAuditDAO.InsertAudit("STUDENT LOGIN SUCCESS", currentDateTime, "NIL", AdminNo, ipaddr, "NIL", -1, isBanned);
-
-
-
-                        string userid = tbLogin.Text.ToString().Trim();
-                        string af = get2FA(userid);
-                        if (af == "1")
-                        {
-                            Session["AdminNo"] = stuObj.AdminNo;
-                            Session["role"] = stuObj.Year;
-                            //creates a new guid every login & saves into session
-                            string guid = Guid.NewGuid().ToString();
-                            Session["AuthToken"] = guid;
-
-                            //creates cookie with the guid value
-                            Response.Cookies.Add(new HttpCookie("AuthToken", guid));
-                            Response.Redirect("OTP.aspx");
-                            string roleformasterpage = Session["role"].ToString();
-
-                        }
-                        else
-                        {
-                            Session["AdminNo"] = stuObj.AdminNo;
-                            Session["role"] = stuObj.Year;
-                            //creates a new guid every login & saves into session
-                            string guid = Guid.NewGuid().ToString();
-                            Session["AuthToken"] = guid;
-
-                            //creates cookie with the guid value
-                            Response.Cookies.Add(new HttpCookie("AuthToken", guid));
-                            Response.Redirect("TripDetails.aspx");
-                            string roleformasterpage = Session["role"].ToString();
-                        }
+                        lblErrorMessage.Visible = true;
                     }
-                }
             }
         }
+    }
         protected void btnSignUp_click(object sender, EventArgs e)
         {
             Response.Redirect("SignUp.aspx");
@@ -445,4 +375,4 @@ namespace eadLab5
             Response.Redirect("EmailConfirmation.aspx");
         }
     }
-}
+    }

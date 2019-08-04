@@ -122,7 +122,7 @@ namespace eadLab5
 
                 StudentLogin stuObj = new StudentLogin();
                 StudentLoginDAO stuDao = new StudentLoginDAO();
-                stuObj = stuDao.getStudentById(adminNo, password);
+                stuObj = stuDao.getStudentById(adminNo);
                 if (stuObj == null)
                 {
                     Labelerror.Text = "gg canot log in";
