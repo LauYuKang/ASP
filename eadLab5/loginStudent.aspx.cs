@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Data;
+using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 
@@ -17,9 +18,9 @@ namespace eadLab5
     {
 
         string sessionid;
-        string strSessionId;
         static string finalHash;
         static string salt;
+        HttpCookie cookieStudent = new HttpCookie("studentCookie"); 
 
         string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
@@ -41,34 +42,41 @@ namespace eadLab5
                 }
             }
 
+            Response.Cookies["staffsessionidcookie"].Expires = DateTime.Now.AddDays(-1);
             //store session id in cookie
             sessionid = HttpContext.Current.Session.SessionID;
             Response.Cookies.Add(new HttpCookie("sessionidcookie", sessionid));
-            //rmbrMeCookie.Value = sessionid.ToString();
-
+            
 
             if (!IsPostBack)
             {
                 //if value of cookie is available
-                if (Request.Cookies["val1"] != null && Request.Cookies["val2"] != null)
+                if (Request.Cookies["studentCookie"] != null)
                 {
 
-                    tbLogin.Text = Request.Cookies["val1"].Value;
-                    tbPassword.Attributes["value"] = Request.Cookies["val2"].Value;
+                    tbLogin.Text = Request.Cookies["studentCookie"].Value;
+
                 }
+                else
+                {
+                    tbLogin.Text = "";
+                }
+
 
             }
 
             //keep the checkbox checked if "remember me" was checked
             if (!IsPostBack)
             {
-                if (Session["checkbox"] != null)
+                //if value of cookie is available(not null) then checkbox gets the value of cookie(being checked)
+                if (Request.Cookies["rmbrMeCookie"] != null)
                 {
-                    chkbox_rmbrMe.Checked = (bool)Session["checkbox"];
+                    chkbox_rmbrMe.Checked = Request.Cookies["rmbrMeCookie"].Values["chkbox_rmbrMe"].ToString() != "1" ? true : false;
+                    
                 }
-
-
+                
             }
+            
 
             lblErrorMessage.Visible = false;
             Session["AdminNo"] = null;
@@ -180,11 +188,11 @@ namespace eadLab5
         {
             string EncodedResponse = Request.Form["g-Recaptcha-Response"];
             bool IsCaptchaValid = (ReCaptchaClass.Validate(EncodedResponse) == "true" ? true : false);
-            
+
             string adminNo = tbLogin.Text.ToUpper();
             validateLogin.Visible = false;
             validatePassword.Visible = false;
-            
+
             //HttpCookie rmbrMeCookie = new HttpCookie("rmbrMeCookie");
 
             if (string.IsNullOrEmpty(tbLogin.Text) || string.IsNullOrEmpty(tbPassword.Text) || (!IsCaptchaValid))
@@ -194,13 +202,13 @@ namespace eadLab5
                 if (string.IsNullOrEmpty(tbPassword.Text))
                 {
                     validatePassword.Visible = true;
-                    
+
                 }
                 if (!IsCaptchaValid)
                 {
                     { validateCaptcha.Visible = true; }
                 }
-                
+
             }
             else
             {
@@ -222,19 +230,27 @@ namespace eadLab5
                         if (chkbox_rmbrMe.Checked)
                         {
 
-                            //creates a session state for checkbox
-                            Session["checkbox"] = chkbox_rmbrMe.Checked;
-                            Response.Cookies["val1"].Value = tbLogin.Text;
-                            Response.Cookies["val2"].Value = tbPassword.Text;
+                            //creates a cookie for checkbox
+                            HttpCookie rmbrMe = new HttpCookie("rmbrMeCookie");
+                            rmbrMe.Values.Add("chkbox_rmbrMe", chkbox_rmbrMe.Checked.ToString());
+                            Response.AppendCookie(rmbrMe);
+                            //rmbrMe.Expires = DateTime.Now.AddMonths(12);
+
+                            cookieStudent.Value = adminNo;
+                            Response.Cookies.Add(cookieStudent);
 
 
                         }
                         else
                         {
-                            Session["checkbox"] = null;
-                            Response.Cookies["val1"].Expires = DateTime.Now.AddMonths(-1);
-                            Response.Cookies["val2"].Expires = DateTime.Now.AddMonths(-1);
+                            //if unchecked
+                            HttpCookie rmbrMe2 = new HttpCookie("rmbrMeCookie");
+                            rmbrMe2.Expires = DateTime.Now.AddDays(-1);
+                            Response.Cookies.Add(rmbrMe2);
 
+                            cookieStudent.Expires = DateTime.Now.AddMonths(-1);
+                            Response.Cookies.Add(cookieStudent);
+                            //important to add
                         }
 
 
@@ -256,11 +272,13 @@ namespace eadLab5
                             //creates a new guid every login & saves into session
                             string guid = Guid.NewGuid().ToString();
                             Session["AuthToken"] = guid;
-
                             //creates cookie with the guid value
                             Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                            
                             Response.Redirect("OTP.aspx");
                             string roleformasterpage = Session["role"].ToString();
+                            
+                            
 
                         }
                         else
@@ -273,8 +291,10 @@ namespace eadLab5
 
                             //creates cookie with the guid value
                             Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+
                             Response.Redirect("TripDetails.aspx");
                             string roleformasterpage = Session["role"].ToString();
+                            
                         }
                     }
                     else
@@ -330,7 +350,7 @@ namespace eadLab5
                         //Response.Cookies["val2"].Value = string.Empty;
                     }
                 }
-                }
+            }
         }
 
 

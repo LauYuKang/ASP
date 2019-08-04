@@ -85,6 +85,15 @@ namespace eadLab5 {
         protected global::System.Web.UI.WebControls.Label validateCaptcha;
         
         /// <summary>
+        /// chkbox_rmbrMe control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkbox_rmbrMe;
+        
+        /// <summary>
         /// btnLogin control.
         /// </summary>
         /// <remarks>
@@ -94,15 +103,6 @@ namespace eadLab5 {
         protected global::System.Web.UI.WebControls.Button btnLogin;
         
         /// <summary>
-        /// errorMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label errorMsg;
-        
-        /// <summary>
         /// ButtonForgotPass control.
         /// </summary>
         /// <remarks>
@@ -110,15 +110,6 @@ namespace eadLab5 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonForgotPass;
-        
-        /// <summary>
-        /// chkbox_rmbrMe control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkbox_rmbrMe;
         
         /// <summary>
         /// lblErrorMessage control.

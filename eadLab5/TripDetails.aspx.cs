@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Net;
 using System.Collections;
+using System.Web.SessionState;
 
 namespace eadLab5
 {
@@ -25,6 +26,15 @@ namespace eadLab5
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Response.Cookies["sessionidcookie"].Expires = DateTime.Now.AddDays(-1);
+
+            SessionIDManager Manager = new SessionIDManager();
+            string NewID = Manager.CreateSessionID(Context);
+            string OldID = Context.Session.SessionID;
+            bool redirected = false;
+            bool IsAdded = false;
+            Manager.SaveSessionID(Context, NewID, out redirected, out IsAdded);
+
             if (Session["role"] != null && Session["AuthToken"] != null && Request.Cookies["AuthToken"] != null)
             { 
                 if (Session["AuthToken"].ToString().Equals(Request.Cookies["AuthToken"].Value))
