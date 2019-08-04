@@ -219,6 +219,7 @@
     <Content Include="loginStudent.aspx" />
     <Content Include="ManageInterviews.aspx" />
     <Content Include="OTP.aspx" />
+    <Content Include="OTPStaff.aspx" />
     <Content Include="OverseasRegisteredList.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
@@ -450,6 +451,13 @@
     </Compile>
     <Compile Include="OTP.aspx.designer.cs">
       <DependentUpon>OTP.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OTPStaff.aspx.cs">
+      <DependentUpon>OTPStaff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OTPStaff.aspx.designer.cs">
+      <DependentUpon>OTPStaff.aspx</DependentUpon>
     </Compile>
     <Compile Include="OverseasRegisteredList.aspx.cs">
       <DependentUpon>OverseasRegisteredList.aspx</DependentUpon>

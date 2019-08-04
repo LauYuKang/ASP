@@ -36,7 +36,7 @@ namespace eadLab5
             }
         }
 
-        
+
 
 
 
@@ -59,12 +59,11 @@ namespace eadLab5
             cipher.GenerateKey();
             Key = cipher.Key;
             IV = cipher.IV;
-            
+
 
             if (ChangeUserPassword())
             {
                 lblMessage.Text = "Password is the work manmanman";
-                Response.Redirect("ResetPass.aspx");
             }
             else
             {
@@ -172,6 +171,6 @@ namespace eadLab5
 
         }
 
-        
+
     }
 }
