@@ -73,7 +73,7 @@
 
                         </ul>
                     <%}
-                        else if ((Session["role"].ToString() == "Teacher") || (Session["role"].ToString() == "Incharge" ))
+                        else if ((Session["role"].ToString() == "Teacher") || (Session["role"].ToString() == "Incharge" || Session["role"].ToString() == "admin" ))
                     { %>
                 <ul class="navbar-nav mr-auto">
                      <li class="nav-item">
@@ -89,11 +89,17 @@
                      <li class="nav-item">
                         <a class="nav-link" href="ManageInterviews.aspx">Interviews</a>
                     </li>
+                    <% if (Session["role"].ToString() == "admin")
+                        { %>
+                         <li class="nav-item">
+                            <a class="nav-link" href="AuditingAndLog.aspx">View Audit Log</a>
+                        </li>
+                    <% } %>
                 </ul>
                     
                     <ul class="navbar-nav ">
                         <li class="nav-item">
-                            <%if (Session["role"].ToString() == "Teacher" || Session["role"].ToString() == "Incharge")
+                            <%if (Session["role"].ToString() == "Teacher" || Session["role"].ToString() == "Incharge" || Session["role"].ToString() == "admin")
                                 { %>
                         <a class="nav-link" href="loginStaff.aspx">Log Out</a>
                             <%}

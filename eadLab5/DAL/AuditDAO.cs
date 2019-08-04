@@ -153,6 +153,8 @@ namespace eadLab5.DAL
 
             sqlCmd = new SqlCommand(sqlStr.ToString(), myConn);
 
+            sqlCmd.Parameters.AddWithValue("@paraAuditId", AuditId);
+
             // Step 4 Open connection the execute NonQuery of sql command   
 
             myConn.Open();

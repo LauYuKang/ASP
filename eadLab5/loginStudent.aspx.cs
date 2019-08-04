@@ -24,6 +24,7 @@ namespace eadLab5
         string MYDBConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
+            /*
             Audit loadAudit = new Audit();
             AuditDAO newAuditDAO = new AuditDAO();
             List<Audit> auditList = newAuditDAO.getAllAudit();
@@ -39,7 +40,7 @@ namespace eadLab5
                         Response.Redirect("Oops.aspx");
                     }
                 }
-            }
+            }*/
 
             //store session id in cookie
             sessionid = HttpContext.Current.Session.SessionID;
@@ -238,12 +239,12 @@ namespace eadLab5
                         foreach (Audit currentAudit in auditList)
                         {
                             String compareAuditIP = currentAudit.IPAddress;
-                            if (compareAuditIP == useripaddr && currentAudit.ActionType == "STUDENT LOGIN FAIL" && todayDate.Substring(0,10) == currentAudit.ActionDate.Substring(0,10))
+                            if (compareAuditIP == useripaddr && tbLogin.Text == currentAudit.AdminNo && currentAudit.ActionType == "STUDENT LOGIN FAIL" && todayDate.Substring(0,10) == currentAudit.ActionDate.Substring(0,10))
                             {
                                 loginCount++;
                             }
                         }
-                        if (loginCount >= 8)
+                        if (loginCount >= 5)
                         {
                             isBanned = "T";
                         }
@@ -269,31 +270,38 @@ namespace eadLab5
                 
                 else
                 {
+
+                    Audit newAudit = new Audit();
+                    AuditDAO newAuditDAO = new AuditDAO();
+                    List<Audit> auditList = newAuditDAO.getAllAudit();
+                    String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    String AdminNo = stuObj.AdminNo;
+                    String ipaddr = newAudit.GetIPAddress();
+
+                    foreach (Audit currentAudit in auditList)
+                    {
+                        String compareAuditIP = currentAudit.IPAddress;
+                        if (tbLogin.Text == currentAudit.AdminNo  && currentDateTime.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10) && currentAudit.IsBanned == "T")
+                        {
+                            newAuditDAO.InsertAudit("STUDENT LOGIN FAIL", currentDateTime, "NIL", AdminNo, ipaddr, "NIL", -1, "T");
+                            Response.Redirect("Oops.aspx");
+                        }
+                    }
                     if (chkbox_rmbrMe.Checked)
                     {
-
                         //creates a session state for checkbox
                         Session["checkbox"] = chkbox_rmbrMe.Checked;
                         Response.Cookies["val1"].Value = tbLogin.Text;
                         Response.Cookies["val2"].Value = tbPassword.Text;
-                        
-                        
                     }
                     else
                     {
                         Session["checkbox"] = null;
                         Response.Cookies["val1"].Expires = DateTime.Now.AddMonths(-1);
                         Response.Cookies["val2"].Expires = DateTime.Now.AddMonths(-1);
-                        
+
                     }
 
-
-
-                    Audit newAudit = new Audit();
-                    AuditDAO newAuditDAO = new AuditDAO();
-                    String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    String AdminNo = stuObj.AdminNo;
-                    String ipaddr = newAudit.GetIPAddress();
                     newAuditDAO.InsertAudit("STUDENT LOGIN SUCCESS", currentDateTime, "NIL", AdminNo, ipaddr, "NIL", -1, isBanned);
 
 

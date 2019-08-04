@@ -12,6 +12,7 @@ namespace eadLab5
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            /*
             Audit loadAudit = new Audit();
             AuditDAO newAuditDAO = new AuditDAO();
             List<Audit> auditList = newAuditDAO.getAllAudit();
@@ -27,7 +28,7 @@ namespace eadLab5
                         Response.Redirect("Oops.aspx");
                     }
                 }
-            }
+            }*/
 
             lblErrorMessage.Visible = false;
             Session["Staffid"] = null;
@@ -87,12 +88,22 @@ namespace eadLab5
                         foreach (Audit currentAudit in auditList)
                         {
                             String compareAuditIP = currentAudit.IPAddress;
-                            if (compareAuditIP == useripaddr && currentAudit.ActionType == "STAFF LOGIN FAIL" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
+                            String staffEmail = "";
+                            foreach (Staff currentStaff in allStaff)
+                            {
+                                if (tbLogin.Text == currentStaff.Email)
+                                {
+                                    isValidID = true;
+                                    staffEmail = currentStaff.Email;
+                                    break;
+                                }
+                            }
+                            if (compareAuditIP == useripaddr &&  tbLogin.Text == staffEmail && currentAudit.ActionType == "STAFF LOGIN FAIL" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
                             {
                                 loginCount++;
                             }
                         }
-                        if (loginCount >= 8)
+                        if (loginCount >= 5)
                         {
                             isBanned = "T";
                         }
@@ -112,14 +123,35 @@ namespace eadLab5
                 }
                 else
                 {
-                    Session["Staffid"] = logObj.Staffid;
-                    Session["role"] = logObj.Role;
-
                     Audit newAudit = new Audit();
                     AuditDAO newAuditDAO = new AuditDAO();
+                    List<Audit> auditList = newAuditDAO.getAllAudit();
                     String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     String staffID = logObj.Staffid;
                     String ipaddr = newAudit.GetIPAddress();
+                    String todayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    foreach (Audit currentAudit in auditList)
+                    {
+                        String compareAuditIP = currentAudit.IPAddress;
+                        String staffEmail = "";
+                        foreach (Staff currentStaff in allStaff)
+                        {
+                            if (tbLogin.Text == currentStaff.Email)
+                            {
+                                staffEmail = currentStaff.Email;
+                                break;
+                            }
+                        }
+                        if (tbLogin.Text == staffEmail  && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10) && currentAudit.IsBanned == "T")
+                        {
+                            newAuditDAO.InsertAudit("STAFF LOGIN FAIL", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1, "T");
+                            Response.Redirect("Oops.aspx");
+                        }
+                    }
+                    Session["Staffid"] = logObj.Staffid;
+                    Session["role"] = logObj.Role;
+
                     newAuditDAO.InsertAudit("STAFF LOGIN SUCCESS", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1,isBanned);
 
                     //creates a new guid every login & saves into session

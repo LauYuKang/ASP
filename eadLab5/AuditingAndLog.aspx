@@ -3,18 +3,29 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <script type="text/javascript" language="javascript">
+        function ConfirmOnDelete()
+        {
+          if (confirm("Are you sure?")==true)
+            return true;
+          else
+            return false;
+        }
+    </script>
 
-<form id="form1" runat="server">
+    <form id="form1" runat="server">
     <div style="text-align:center;margin:0.8em;">
         <asp:Label ID="pageLabel" runat="server" Font-Bold="True" Font-Names="Trebuchet MS" Font-Size="XX-Large" ForeColor="Maroon" Text="Audit Log"></asp:Label>
     </div>
     
     <div style="text-align:center;margin:auto;display:block;width:16%">
         <asp:TextBox ID="tb_date" runat="server" CssClass="form-control" TextMode="Date" OnTextChanged="tb_date_TextChanged"  ></asp:TextBox>
-        <asp:Button ID="btn_retrieve" runat="server" Text="retrieve" OnClick="btn_retrieve_Click" />
+        <asp:Button ID="btn_retrieve" runat="server" Text="Retrieve" OnClick="btn_retrieve_Click" />
+        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Refresh" />
     </div> <br />
 
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="AuditId" DataSourceID="EADP" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" CellSpacing="3" HorizontalAlign="Center" Width="100%">
+    
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="AuditId" DataSourceID="EADP" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" CellSpacing="3" HorizontalAlign="Center" Width="100%" OnRowDeleting="OnRowDeleting" OnRowDataBound="OnRowDataBound">
 
         <AlternatingRowStyle BackColor="#EEEFF9" />
 
@@ -29,6 +40,7 @@
             <asp:BoundField DataField="TableName" HeaderText="TableName" SortExpression="TableName" />
             <asp:BoundField DataField="RecNumber" HeaderText="RecNumber" SortExpression="RecNumber" />
             <asp:BoundField DataField="IsBanned" HeaderText="Banned" SortExpression="IsBanned" />
+            <asp:CommandField ButtonType="Button" ShowDeleteButton="True"  />
         </Columns>
         <SelectedRowStyle BackColor="DarkTurquoise" BorderStyle="Solid" />
 
@@ -38,6 +50,7 @@
             <PagerSettings Mode="NumericFirstLast" PageButtonCount="10" />
             <PagerStyle VerticalAlign="Bottom" HorizontalAlign="Right" />
     </asp:GridView>
+    <div style="margin-bottom:100px"></div>
 
 
 
