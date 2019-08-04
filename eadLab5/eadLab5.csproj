@@ -17,7 +17,8 @@
     <AssemblyName>eadLab5</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44361</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -206,6 +207,7 @@
     <Content Include="Disable2FA.aspx" />
     <Content Include="EditTripDetails.aspx" />
     <Content Include="EmailConfirmation.aspx" />
+    <Content Include="EmailVerified.aspx" />
     <Content Include="Enable2FA.aspx" />
     <Content Include="Enquiry.aspx" />
     <Content Include="GeneralSetting.aspx" />
@@ -380,6 +382,13 @@
     </Compile>
     <Compile Include="EmailConfirmation.aspx.designer.cs">
       <DependentUpon>EmailConfirmation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmailVerified.aspx.cs">
+      <DependentUpon>EmailVerified.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EmailVerified.aspx.designer.cs">
+      <DependentUpon>EmailVerified.aspx</DependentUpon>
     </Compile>
     <Compile Include="Enable2FA.aspx.cs">
       <DependentUpon>Enable2FA.aspx</DependentUpon>

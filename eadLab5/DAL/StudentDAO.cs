@@ -136,7 +136,7 @@ namespace eadLab5.DAL
             return studList;
         }
 
-        public int InsertTD(String AdminNo, String Password, String Email, String HpNumber, string salt)
+        public int InsertTD(String AdminNo, String Password, int Year, String Email, String HpNumber, string salt, string EmailVerified)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             StringBuilder sqlStr = new StringBuilder();
@@ -146,8 +146,8 @@ namespace eadLab5.DAL
 
             //         parameterised query in values clause
             //
-            sqlStr.AppendLine("INSERT INTO Student (AdminNo, Password, Email, HpNumber, Salt) ");
-            sqlStr.AppendLine("VALUES (@paraAdmin,@paraPassword, @paraEmail, @paraHpNumber, @parasalt)");
+            sqlStr.AppendLine("INSERT INTO Student (AdminNo, Password, Year, Email, HpNumber, Salt, EmailVerified) ");
+            sqlStr.AppendLine("VALUES (@paraAdmin,@paraPassword,@paraYear, @paraEmail, @paraHpNumber, @parasalt, @paraEmailVerified)");
 
 
             // Step 2 :Instantiate SqlConnection instance and SqlCommand instance
@@ -159,10 +159,12 @@ namespace eadLab5.DAL
             // Step 3 : Add each parameterised query variable with value
             //          complete to add all parameterised queries
             sqlCmd.Parameters.AddWithValue("@paraAdmin", AdminNo);
+            sqlCmd.Parameters.AddWithValue("@paraYear", Year);
             sqlCmd.Parameters.AddWithValue("@paraPassword", Password);
             sqlCmd.Parameters.AddWithValue("@paraEmail", Email);
             sqlCmd.Parameters.AddWithValue("@paraHpNumber", HpNumber);
             sqlCmd.Parameters.AddWithValue("@parasalt", salt);
+            sqlCmd.Parameters.AddWithValue("@paraEmailVerified", EmailVerified);
 
             // Step 4 Open connection the execute NonQuery of sql command   
 
@@ -175,6 +177,109 @@ namespace eadLab5.DAL
             return result;
 
         }
+
+        public int updateVerified(String AdminNo, String EmailVerified)
+        {
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+            StringBuilder sqlStr = new StringBuilder();
+            int result = 0;    // Execute NonQuery return an integer value
+            SqlCommand sqlCmd = new SqlCommand();
+            // Step1 : Create SQL insert command to add record to TDMaster using     
+
+            //         parameterised query in values clause
+            //
+            sqlStr.AppendLine("UPDATE Student");
+            sqlStr.AppendLine("SET EmailVerified = @paraEmailVerified ");
+            sqlStr.AppendLine("where AdminNo = @paraAdminNo");
+
+
+            // Step 2 :Instantiate SqlConnection instance and SqlCommand instance
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            sqlCmd = new SqlCommand(sqlStr.ToString(), myConn);
+
+            // Step 3 : Add each parameterised query variable with value
+            //          complete to add all parameterised queries
+            sqlCmd.Parameters.AddWithValue("@paraEmailVerified", EmailVerified);
+
+
+
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+
+            // Step 5 :Close connection
+            myConn.Close();
+
+            return result;
+
+        }
+
+        //public int updateVerifiedTime(String AdminNo)
+        //{
+        //    string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+        //    StringBuilder sqlStr = new StringBuilder();
+        //    int result = 0;    // Execute NonQuery return an integer value
+        //    SqlCommand sqlCmd = new SqlCommand();
+        //    // Step1 : Create SQL insert command to add record to TDMaster using     
+
+        //    //         parameterised query in values clause
+        //    //
+        //    sqlStr.AppendLine("UPDATE Student");
+        //    sqlStr.AppendLine("SET EmailVerifiedTime = @paraEmailVerified ");
+        //    sqlStr.AppendLine("where AdminNo = @paraAdminNo");
+
+
+        //    // Step 2 :Instantiate SqlConnection instance and SqlCommand instance
+
+        //    SqlConnection myConn = new SqlConnection(DBConnect);
+
+        //    sqlCmd = new SqlCommand(sqlStr.ToString(), myConn);
+
+        //    // Step 3 : Add each parameterised query variable with value
+        //    //          complete to add all parameterised queries
+        //    sqlCmd.Parameters.AddWithValue("@paraEmailVerifiedTime", DateTime.Now);
+
+
+
+        //    myConn.Open();
+        //    result = sqlCmd.ExecuteNonQuery();
+
+        //    // Step 5 :Close connection
+        //    myConn.Close();
+
+        //    return result;
+
+        //}
+
+        //public DateTime getVerifiedTime(string adminNo)
+        //{
+        //    string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+        //    SqlDataAdapter da;
+        //    DataSet ds = new DataSet();
+
+        //    StringBuilder StudentCommand = new StringBuilder();
+        //    StudentCommand.AppendLine("Select EmailVerifiedTime from Student");
+        //    StudentCommand.AppendLine("where AdminNo = @paraAdminNo");
+
+        //    SqlConnection myConn = new SqlConnection(DBConnect);
+        //    da = new SqlDataAdapter(StudentCommand.ToString(), myConn);
+
+        //    // Step 6: fill dataset
+        //    da.Fill(ds, "TableTD");
+
+        //    // Step 7: Iterate the rows from TableTD above to create a collection of TD
+        //    //         for this particular customer 
+        //    Student dl = new Student();
+        //    int rec_cnt = ds.Tables["TableTD"].Rows.Count;
+        //    if (rec_cnt > 0)
+        //    {
+        //        DataRow row = ds.Tables["StudentTable"].Rows[0];  // Sql command returns only one record
+        //        dl.EmailVerifiedTime = Convert.ToDateTime(row["EmailVerifiedTime"]);
+        //    }
+
+        //    return dl;
+        //}
 
     }
 }

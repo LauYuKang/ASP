@@ -181,7 +181,7 @@ namespace eadLab5
             string EncodedResponse = Request.Form["g-Recaptcha-Response"];
             bool IsCaptchaValid = (ReCaptchaClass.Validate(EncodedResponse) == "true" ? true : false);
             
-            tbLogin.Text.ToUpper();
+            string adminNo = tbLogin.Text.ToUpper();
             validateLogin.Visible = false;
             validatePassword.Visible = false;
             
@@ -206,129 +206,131 @@ namespace eadLab5
             {
                 StudentLogin stuObj = new StudentLogin();
                 StudentLoginDAO stuDao = new StudentLoginDAO();
-                stuObj = stuDao.getStudentById(tbLogin.Text, tbPassword.Text);
-
-                StudentDAO studentDao = new StudentDAO();
-                List<DAL.Student> allStu = studentDao.getAllstudent();
-                string isBanned = "F";
-                if (stuObj == null)
+                SHA512Managed hashing = new SHA512Managed();
+                string dbHash = getDBHash(tbLogin.Text);
+                string dbSalt = getDBSalt(tbLogin.Text);
+                if (dbSalt != null && dbSalt.Length > 0 && dbHash != null && dbHash.Length > 0)
                 {
-                    Audit newAudit = new Audit();
-                    AuditDAO newAuditDAO = new AuditDAO();
-                    List<Audit> auditList = newAuditDAO.getAllAudit();
-
-                    int loginCount = 0;
-                    Boolean isValidID = false;
-
-                    // is the input a valid ID?
-                    foreach (DAL.Student currentStudent in allStu)
+                    string pwdWithSalt = tbPassword.Text + dbSalt;
+                    byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                    string userHash = Convert.ToBase64String(hashWithSalt);
+                    StudentDAO studentDao = new StudentDAO();
+                    List<DAL.Student> allStu = studentDao.getAllstudent();
+                    string isBanned = "F";
+                    if (userHash.Equals(dbHash))
                     {
-                        if (tbLogin.Text == currentStudent.AdminNo)
+                        if (chkbox_rmbrMe.Checked)
                         {
-                            isValidID = true;
+
+                            //creates a session state for checkbox
+                            Session["checkbox"] = chkbox_rmbrMe.Checked;
+                            Response.Cookies["val1"].Value = tbLogin.Text;
+                            Response.Cookies["val2"].Value = tbPassword.Text;
+
+
+                        }
+                        else
+                        {
+                            Session["checkbox"] = null;
+                            Response.Cookies["val1"].Expires = DateTime.Now.AddMonths(-1);
+                            Response.Cookies["val2"].Expires = DateTime.Now.AddMonths(-1);
+
+                        }
+
+
+
+                        Audit newAudit = new Audit();
+                        AuditDAO newAuditDAO = new AuditDAO();
+                        String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        String ipaddr = newAudit.GetIPAddress();
+                        newAuditDAO.InsertAudit("STUDENT LOGIN SUCCESS", currentDateTime, "NIL", adminNo, ipaddr, "NIL", -1, isBanned);
+
+
+
+                        string userid = tbLogin.Text.ToString().Trim();
+                        string af = get2FA(userid);
+                        if (af == "1")
+                        {
+                            Session["AdminNo"] = adminNo;
+                            Session["role"] = "1";
+                            //creates a new guid every login & saves into session
+                            string guid = Guid.NewGuid().ToString();
+                            Session["AuthToken"] = guid;
+
+                            //creates cookie with the guid value
+                            Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                            Response.Redirect("OTP.aspx");
+                            string roleformasterpage = Session["role"].ToString();
+
+                        }
+                        else
+                        {
+                            Session["AdminNo"] = adminNo;
+                            Session["role"] = "1";
+                            //creates a new guid every login & saves into session
+                            string guid = Guid.NewGuid().ToString();
+                            Session["AuthToken"] = guid;
+
+                            //creates cookie with the guid value
+                            Response.Cookies.Add(new HttpCookie("AuthToken", guid));
+                            Response.Redirect("TripDetails.aspx");
+                            string roleformasterpage = Session["role"].ToString();
                         }
                     }
-
-                    if (isValidID == true && auditList != null)
+                    else
                     {
-                        // this is the user ip address and current date
-                        String useripaddr = newAudit.GetIPAddress();
-                        String todayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                        // loop all the audits
-                        foreach (Audit currentAudit in auditList)
+                        Audit newAudit = new Audit();
+                        AuditDAO newAuditDAO = new AuditDAO();
+                        List<Audit> auditList = newAuditDAO.getAllAudit();
+
+                        int loginCount = 0;
+                        Boolean isValidID = false;
+
+                        // is the input a valid ID?
+                        foreach (DAL.Student currentStudent in allStu)
                         {
-                            String compareAuditIP = currentAudit.IPAddress;
-                            if (compareAuditIP == useripaddr && currentAudit.ActionType == "STUDENT LOGIN FAIL" && todayDate.Substring(0,10) == currentAudit.ActionDate.Substring(0,10))
+                            if (tbLogin.Text == currentStudent.AdminNo)
                             {
-                                loginCount++;
+                                isValidID = true;
                             }
                         }
-                        if (loginCount >= 8)
+
+                        if (isValidID == true && auditList != null)
                         {
-                            isBanned = "T";
+                            // this is the user ip address and current date
+                            String useripaddr = newAudit.GetIPAddress();
+                            String todayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            // loop all the audits
+                            foreach (Audit currentAudit in auditList)
+                            {
+                                String compareAuditIP = currentAudit.IPAddress;
+                                if (compareAuditIP == useripaddr && currentAudit.ActionType == "STUDENT LOGIN FAIL" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
+                                {
+                                    loginCount++;
+                                }
+                            }
+                            if (loginCount >= 8)
+                            {
+                                isBanned = "T";
+                            }
                         }
-                    }
 
-                    String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    String AdminNo = tbLogin.Text;
-                    String ipaddr = newAudit.GetIPAddress();
-                    newAuditDAO.InsertAudit("STUDENT LOGIN FAIL", currentDateTime,"NIL", AdminNo, ipaddr, "NIL", -1, isBanned);
+                        String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                        String ipaddr = newAudit.GetIPAddress();
+                        newAuditDAO.InsertAudit("STUDENT LOGIN FAIL", currentDateTime, "NIL", adminNo, ipaddr, "NIL", -1, isBanned);
 
-                    if (isBanned == "T")
-                    {
-                        Response.Redirect("Oops.aspx");
-                    }
+                        if (isBanned == "T")
+                        {
+                            Response.Redirect("Oops.aspx");
+                        }
 
 
-                    lblErrorMessage.Visible = true;
-                    //Response.Cookies["val1"].Value = string.Empty;
-                    //Response.Cookies["val2"].Value = string.Empty;
-                    
-                    
-                }
-                
-                else
-                {
-                    if (chkbox_rmbrMe.Checked)
-                    {
-
-                        //creates a session state for checkbox
-                        Session["checkbox"] = chkbox_rmbrMe.Checked;
-                        Response.Cookies["val1"].Value = tbLogin.Text;
-                        Response.Cookies["val2"].Value = tbPassword.Text;
-                        
-                        
-                    }
-                    else
-                    {
-                        Session["checkbox"] = null;
-                        Response.Cookies["val1"].Expires = DateTime.Now.AddMonths(-1);
-                        Response.Cookies["val2"].Expires = DateTime.Now.AddMonths(-1);
-                        
-                    }
-
-
-
-                    Audit newAudit = new Audit();
-                    AuditDAO newAuditDAO = new AuditDAO();
-                    String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    String AdminNo = stuObj.AdminNo;
-                    String ipaddr = newAudit.GetIPAddress();
-                    newAuditDAO.InsertAudit("STUDENT LOGIN SUCCESS", currentDateTime, "NIL", AdminNo, ipaddr, "NIL", -1, isBanned);
-
-
-                    
-                    string userid = tbLogin.Text.ToString().Trim();
-                    string af = get2FA(userid);
-                    if (af == "1")
-                    {
-                        Session["AdminNo"] = stuObj.AdminNo;
-                        Session["role"] = stuObj.Year;
-                        //creates a new guid every login & saves into session
-                        string guid = Guid.NewGuid().ToString();
-                        Session["AuthToken"] = guid;
-
-                        //creates cookie with the guid value
-                        Response.Cookies.Add(new HttpCookie("AuthToken", guid));
-                        Response.Redirect("OTP.aspx");
-                        string roleformasterpage = Session["role"].ToString();
-
-                    }
-                    else
-                    {
-                        Session["AdminNo"] = stuObj.AdminNo;
-                        Session["role"] = stuObj.Year;
-                        //creates a new guid every login & saves into session
-                        string guid = Guid.NewGuid().ToString();
-                        Session["AuthToken"] = guid;
-
-                        //creates cookie with the guid value
-                        Response.Cookies.Add(new HttpCookie("AuthToken", guid));
-                        Response.Redirect("TripDetails.aspx");
-                        string roleformasterpage = Session["role"].ToString();
+                        lblErrorMessage.Visible = true;
+                        //Response.Cookies["val1"].Value = string.Empty;
+                        //Response.Cookies["val2"].Value = string.Empty;
                     }
                 }
-            }
+                }
         }
 
 
