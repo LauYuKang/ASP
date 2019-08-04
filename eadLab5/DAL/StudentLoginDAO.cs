@@ -11,7 +11,7 @@ namespace eadLab5.DAL
 {
     public class StudentLoginDAO
     {
-        public StudentLogin getStudentById(string AdminNo, string password)
+        public StudentLogin getStudentById(string AdminNo)
         {
 
             //Get connection string from web.config
@@ -23,8 +23,7 @@ namespace eadLab5.DAL
             //WRITE SQL Statement to retrieve all columns from Customer by customer Id using query parameter
             StringBuilder sqlCommand = new StringBuilder();
             sqlCommand.AppendLine("Select * from Student where");
-            sqlCommand.AppendLine("AdminNo = @paraAdminNo AND ");
-            sqlCommand.AppendLine("Password = @paraPassword");
+            sqlCommand.AppendLine("AdminNo = @paraAdminNo ");
             //***TO Simulate system error  *****
             // change custId in where clause to custId1 or 
             // change connection string in web config to a wrong file name  
@@ -34,7 +33,6 @@ namespace eadLab5.DAL
             SqlConnection myConn = new SqlConnection(DBConnect);
             da = new SqlDataAdapter(sqlCommand.ToString(), myConn);
             da.SelectCommand.Parameters.AddWithValue("@paraAdminNo", AdminNo);
-            da.SelectCommand.Parameters.AddWithValue("@paraPassword", password);
 
             // fill dataset
             da.Fill(ds, "custTable");
@@ -43,7 +41,6 @@ namespace eadLab5.DAL
             {
                 DataRow row = ds.Tables["custTable"].Rows[0];  // Sql command returns only one record
                 obj.AdminNo = row["AdminNo"].ToString();
-                obj.Password = row["Password"].ToString();
                 obj.Year = row["Year"].ToString();
             }
             else
