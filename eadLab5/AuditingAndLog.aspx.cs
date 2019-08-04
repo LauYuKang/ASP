@@ -21,6 +21,14 @@ namespace eadLab5
             if (Session["role"].ToString() != "admin")
             {
                 Response.Redirect("loginStaff.aspx");
+            } /*
+            if (Session["role"] == null)
+            {
+                Response.Redirect("loginStaff.aspx");
+            }
+            if (Session["role"].ToString() != "admin")
+            {
+                Response.Redirect("loginStaff.aspx");
             }
             if (Session["Staffid"] == null)
             {
@@ -29,7 +37,7 @@ namespace eadLab5
             if (Convert.ToInt32(Session["Staffid"]) != 0)
             {
                 Response.Redirect("loginStaff.aspx");
-            }
+            }*/
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
