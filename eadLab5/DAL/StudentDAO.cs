@@ -201,6 +201,7 @@ namespace eadLab5.DAL
 
             // Step 3 : Add each parameterised query variable with value
             //          complete to add all parameterised queries
+            sqlCmd.Parameters.AddWithValue("@paraAdminNo", AdminNo);
             sqlCmd.Parameters.AddWithValue("@paraEmailVerified", EmailVerified);
 
 
@@ -213,6 +214,44 @@ namespace eadLab5.DAL
 
             return result;
 
+        }
+        public Student getEmailVerified(string adminNo)
+        {
+            //Get connection string from web.config
+            string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
+            SqlDataAdapter da;
+            DataSet ds = new DataSet();
+
+            //Create Adapter
+            //WRITE SQL Statement to retrieve all columns from Customer by customer Id using query parameter
+            StringBuilder sqlCommand = new StringBuilder();
+            sqlCommand.AppendLine("Select EmailVerified from Student where");
+            sqlCommand.AppendLine("AdminNo = @paraadminNo");
+            //***TO Simulate system error  *****
+            // change custId in where clause to custId1 or 
+            // change connection string in web config to a wrong file name  
+
+            Student obj = new Student();   // create a customer instance
+
+            SqlConnection myConn = new SqlConnection(DBConnect);
+            da = new SqlDataAdapter(sqlCommand.ToString(), myConn);
+            da.SelectCommand.Parameters.AddWithValue("@paraadminNo", adminNo);
+
+            // fill dataset
+            da.Fill(ds, "custTable");
+            int rec_cnt = ds.Tables["custTable"].Rows.Count;
+            if (rec_cnt > 0)
+            {
+                DataRow row = ds.Tables["custTable"].Rows[0];  // Sql command returns only one record
+                obj.EmailVerified = row["EmailVerified"].ToString();
+            }
+            else
+            {
+                obj = null;
+            }
+
+            return obj;
         }
 
         //public int updateVerifiedTime(String AdminNo)

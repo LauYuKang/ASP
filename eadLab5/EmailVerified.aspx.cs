@@ -17,13 +17,41 @@ namespace eadLab5
     public partial class EmailVerified : System.Web.UI.Page
     {
         int rInt;
-        string email;
-        string adminNo;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            adminNo = Session["AdminNo"].ToString();
-            email = Session["Email"].ToString();
+            string adminNo = Session["AdminNo"].ToString();
+            string email = Session["Email"].ToString();
+
+            if (!IsPostBack)
+            {
+                Session["code"] = null;
+            }
+
+        }
+
+
+        protected void btn_sendCodeClick(object sender, EventArgs e)
+        {
+            string adminNo = Session["AdminNo"].ToString();
+            string email = Session["Email"].ToString();
+            StudentDAO logDao = new StudentDAO();
+            ////int logObj = logDao.updateVerifiedTime(adminNo);
+            //if (logObj == 1)
+            //{
+            btn_sendCode.Text = "Resend";
+            Random r = new Random();
+            rInt = r.Next(10000, 99999);
+            SendPasswordResetEmail(email, adminNo, rInt);
+            lblError.Visible = true;
+            lblError.Text = "Code Sent";
+            Session["code"] = rInt;
+            //}
+            //else
+            //{
+            //    lblError.Visible = true;
+            //    lblError.Text = "Code send failed";
+            //}
         }
 
         protected void btn_submitClick(object sender, EventArgs e)
@@ -35,49 +63,43 @@ namespace eadLab5
             //int newcompare = Convert.ToInt32(Compare);
             if (string.IsNullOrEmpty(tbCode.Text))
             {
-                
+
                 validationCode.Visible = true;
             }
             else
             {
+                string adminNo = Session["AdminNo"].ToString();
+                string emailverified = "T";
                 //if (newcompare > 5)
                 //{
                 //    lblError.Text = "Code Expired";
                 //}
                 //else
                 //{
-                string emailcode = rInt.ToString();
-                string code = tbCode.Text;
+                StudentDAO obj = new StudentDAO();
+                string emailcode = Session["code"].ToString();
+                string code = tbCode.Text.ToString();
                 if (emailcode == code)
                 {
-                    Response.Redirect("loginStudent.aspx");
+                    int check = obj.updateVerified(adminNo, emailverified);
+                    if (check == 1) {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(),"alert","alert('Email Verified sucessfully');window.location ='loginStudent.aspx';",true);
+                        //Response.Redirect("loginStudent.aspx");
+                    }
+                    else
+                    {
+                        lblError.ForeColor = System.Drawing.Color.Red;
+                        lblError.Text = "Verification Failed";
+                    }
+
                 }
                 else
                 {
-                    lblError.Text = "Wrong code";
+                    lblError.ForeColor = System.Drawing.Color.Red;
+                    lblError.Text = "Wrong code" ;
                 }
                 //}
             }
-        }
-
-        protected void btn_sendCodeClick(object sender, EventArgs e)
-        {
-            StudentDAO logDao = new StudentDAO();
-            ////int logObj = logDao.updateVerifiedTime(adminNo);
-            //if (logObj == 1)
-            //{
-                btn_sendCode.Text = "Resend";
-                Random r = new Random();
-                rInt = r.Next(10000, 99999);
-                SendPasswordResetEmail(email, adminNo, rInt);
-                lblError.Visible = true;
-                lblError.Text = "Code Sent, Code only valid for one minutes";
-            //}
-            //else
-            //{
-            //    lblError.Visible = true;
-            //    lblError.Text = "Code send failed";
-            //}
         }
 
 

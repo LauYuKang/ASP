@@ -9,7 +9,7 @@ using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using System.Net;
 using System.Data.SqlClient;
-using System.Web.SessionState;
+
 using System.Data;
 
 
@@ -33,16 +33,6 @@ namespace eadLab5
             // in page load, send otp, send to database, check if textbox is same as database value, if same log in, if not try again
             // Find your Account Sid and Token at twilio.com/console
             // DANGER! This is insecure. See http://twil.io/secure
-
-            Response.Cookies["sessionidcookie"].Expires = DateTime.Now.AddDays(-1);
-            Response.Cookies["staffsessionidcookie"].Expires = DateTime.Now.AddDays(-1);
-
-            SessionIDManager Manager = new SessionIDManager();
-            string NewID = Manager.CreateSessionID(Context);
-            string OldID = Context.Session.SessionID;
-            bool redirected = false;
-            bool IsAdded = false;
-            Manager.SaveSessionID(Context, NewID, out redirected, out IsAdded);
 
             if (Session["role"] != null)
             {
@@ -115,9 +105,9 @@ namespace eadLab5
 
                     var message = MessageResource.Create(
 
-                        body: Name + ", your otp is "+ otp  ,
+                        body: Name + ", your otp is " + otp,
                         from: new Twilio.Types.PhoneNumber("+19384448461"),
-                        to: new Twilio.Types.PhoneNumber("+65"+Phone)
+                        to: new Twilio.Types.PhoneNumber("+65" + Phone)
                     );
 
                     Console.WriteLine(message.Sid);
@@ -135,7 +125,7 @@ namespace eadLab5
                 stuObj = stuDao.getStudentById(adminNo);
                 if (stuObj == null)
                 {
-                    Labelerror.Text = "gg canot log in" ;
+                    Labelerror.Text = "gg canot log in";
                 }
                 else
                 {
@@ -166,7 +156,7 @@ namespace eadLab5
             }
         }
 
-        
+
 
 
         protected string GetStudentName(string adminNo)
