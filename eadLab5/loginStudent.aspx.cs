@@ -238,7 +238,43 @@ namespace eadLab5
                 else if(validateLogin.Visible || validatePassword.Visible)
                 {
                     lblErrorMessage.Visible = true;
+                    int loginCount = 0;
+                    string isBanned = "F";
                     lblErrorMessage.Text = "Invalid password or email";
+                    AuditDAO newAuditDAO = new AuditDAO();
+                    String todayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    Audit loadAudit = new Audit();
+                    String useripaddr = loadAudit.GetIPAddress();
+                    List<Audit> auditList = newAuditDAO.getAllAudit();
+                    newAuditDAO.InsertAudit("STUDENT LOGIN FAIL", todayDate, "NIL", tbLogin.Text, useripaddr, "NIL", -1, "F");
+                    if ( auditList != null)
+                    {
+                        // this is the user ip address and current date
+                        // loop all the audits
+                        foreach (Audit currentAudit in auditList)
+                        {
+                            String compareAuditIP = currentAudit.IPAddress;
+                            if (compareAuditIP == useripaddr && tbLogin.Text == currentAudit.AdminNo && currentAudit.ActionType == "STUDENT LOGIN FAIL" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
+                            {
+                                loginCount++;
+                            }
+                        }
+                        if (loginCount >= 5)
+                        {
+                            isBanned = "T";
+                        }
+                    }
+
+                    String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    newAuditDAO.InsertAudit("STUDENT LOGIN FAIL", currentDateTime, "NIL", adminNo, useripaddr, "NIL", -1, isBanned);
+
+                    if (isBanned == "T")
+                    {
+                        Response.Redirect("Oops.aspx");
+                    }
+
+
+                    lblErrorMessage.Visible = true;
                 }
                 else
                 {
