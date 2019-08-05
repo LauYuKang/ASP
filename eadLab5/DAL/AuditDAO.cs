@@ -53,6 +53,31 @@ namespace eadLab5.DAL
             return rteList;
         }
 
+        public int updateAudit(string AdminNo, string StaffID)
+        {
+            StringBuilder sqlStr = new StringBuilder();
+            int result = 0;    // Execute NonQuery return an integer value
+            SqlCommand sqlCmd = new SqlCommand();
+            //String todayDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+            sqlStr.AppendLine("UPDATE AuditLog");
+            sqlStr.AppendLine("SET IsBanned = 'U', ActionType='STAFF/STUDENT LOGIN FAIL - UNBANNED'");
+            sqlStr.AppendLine("WHERE AdminNo = @aAdminNo AND StaffID = @aStaffID");
+            //sqlStr.AppendLine("WHERE AdminNo = @aAdminNo AND StaffID = @aStaffID AND ActionDate LIKE @aActionDate");
+            SqlConnection myConn = new SqlConnection(DBConnect);
+
+            sqlCmd = new SqlCommand(sqlStr.ToString(), myConn);
+
+            sqlCmd.Parameters.AddWithValue("@aAdminNo", AdminNo);
+            sqlCmd.Parameters.AddWithValue("@aStaffID", StaffID);
+           // sqlCmd.Parameters.AddWithValue("@aActionDate", (todayDate + "%"));
+
+            myConn.Open();
+            result = sqlCmd.ExecuteNonQuery();
+            myConn.Close();
+            return result;
+        }
+
         public Audit getAuditById(String AuditId)
         {
             string DBConnect = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;

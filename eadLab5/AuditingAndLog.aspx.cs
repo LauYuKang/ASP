@@ -52,21 +52,36 @@ namespace eadLab5
             AuditDAO deleteDAO = new AuditDAO();
             deleteDAO.delete(index);
             Response.Redirect("AuditingAndLog.aspx");
+            
+        }
+        
+        protected void OnRowCommand(Object sender, GridViewCommandEventArgs e)
+        { 
+            if (e.CommandName == "Unban")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = GridView1.Rows[index];
+                //Response.Redirect("AddNewAccount.aspx?id=" + row.Cells[0].Text);
+                string AdminNo = row.Cells[4].Text;
+                string StaffID = row.Cells[3].Text;
+
+                AuditDAO updateDAO = new AuditDAO();
+                updateDAO.updateAudit(AdminNo,StaffID);
+                Response.Redirect("AuditingAndLog.aspx");
+
+                /*
+                GridViewRow gvr = (GridViewRow)(((Button)e.CommandSource).NamingContainer);
+                int RowIndex = gvr.RowIndex;
+                int index = Convert.ToInt32(GridView1.DataKeys[RowIndex].Values[0]);
+                AuditDAO updateDAO = new AuditDAO();
+                updateDAO.updateAudit(index);
+                Response.Redirect("AuditingAndLog.aspx");*/
+            }
         }
 
-
-
-        bool ReturnValue()
-        {
-            return false;
-        }
 
         protected void OnRowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                //((Button)e.Row.Cells[9].Controls[]).OnClientClick = "return confirm('Are you sure you want to delete?');";
-            }
         }
 
         protected void tb_date_TextChanged(object sender, EventArgs e)

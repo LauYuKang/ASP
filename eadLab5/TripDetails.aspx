@@ -71,7 +71,7 @@
             })
         }
     </script>
-    <% if (role == "Teacher" || role=="Incharge")
+    <% if (role == "Teacher" || role=="Incharge" || role=="admin")
         { %>
     <div class="container">
         <button class="btn btn-secondary btn-lg add-trip-btn" type="button" data-toggle="modal" data-target="#addModal"><i class="fa fa-plus"></i></button>

@@ -25,7 +25,7 @@
     </div> <br />
 
     
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="AuditId" DataSourceID="EADP" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" CellSpacing="3" HorizontalAlign="Center" Width="100%" OnRowDeleting="OnRowDeleting" OnRowDataBound="OnRowDataBound">
+    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="AuditId" DataSourceID="EADP" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" CellSpacing="3" HorizontalAlign="Center" Width="100%" OnRowDeleting="OnRowDeleting" OnRowDataBound="OnRowDataBound" OnRowCommand="OnRowCommand">
 
         <AlternatingRowStyle BackColor="#EEEFF9" />
 
@@ -40,7 +40,16 @@
             <asp:BoundField DataField="TableName" HeaderText="TableName" SortExpression="TableName" />
             <asp:BoundField DataField="RecNumber" HeaderText="RecNumber" SortExpression="RecNumber" />
             <asp:BoundField DataField="IsBanned" HeaderText="Banned" SortExpression="IsBanned" />
-            <asp:CommandField ButtonType="Button" ShowDeleteButton="True"  />
+            <asp:TemplateField ShowHeader="False">
+                <ItemTemplate>
+                    <asp:Button ID="Button1" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure you want to delete?'); "/>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField ShowHeader="False">
+                <ItemTemplate>
+                    <asp:Button ID="Button2" runat="server" CausesValidation="False" CommandName="Unban" Text="Unban" OnClientClick="return confirm('Are you sure you want to unban?');" CommandArgument='<%#Container.DataItemIndex%>'/>
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
         <SelectedRowStyle BackColor="DarkTurquoise" BorderStyle="Solid" />
 

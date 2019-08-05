@@ -28,12 +28,13 @@ namespace eadLab5
         {
             Response.Cookies["sessionidcookie"].Expires = DateTime.Now.AddDays(-1);
 
+            /*
             SessionIDManager Manager = new SessionIDManager();
             string NewID = Manager.CreateSessionID(Context);
             string OldID = Context.Session.SessionID;
             bool redirected = false;
             bool IsAdded = false;
-            Manager.SaveSessionID(Context, NewID, out redirected, out IsAdded);
+            Manager.SaveSessionID(Context, NewID, out redirected, out IsAdded);*/
 
             if (Session["role"] != null && Session["AuthToken"] != null && Request.Cookies["AuthToken"] != null)
             { 

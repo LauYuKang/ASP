@@ -113,7 +113,7 @@ namespace eadLab5
                                     break;
                                 }
                             }
-                            if (compareAuditIP == useripaddr &&  tbLogin.Text == staffEmail && currentAudit.ActionType == "STAFF LOGIN FAIL" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
+                            if (compareAuditIP == useripaddr && currentAudit.StaffID == tbLogin.Text && tbLogin.Text == staffEmail && currentAudit.ActionType == "STAFF LOGIN FAIL" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
                             {
                                 loginCount++;
                             }
@@ -159,7 +159,7 @@ namespace eadLab5
                                 break;
                             }
                         }
-                        if (tbLogin.Text == staffEmail  && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10) && currentAudit.IsBanned == "T")
+                        if (tbLogin.Text == staffEmail  && currentAudit.StaffID == tbLogin.Text && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10) && currentAudit.IsBanned == "T")
                         {
                             newAuditDAO.InsertAudit("STAFF LOGIN FAIL", currentDateTime, staffID, "NIL", ipaddr, "NIL", -1, "T");
                             Response.Redirect("Oops.aspx");

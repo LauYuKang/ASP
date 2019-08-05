@@ -258,10 +258,25 @@ namespace eadLab5
                                 //important to add
                             }
 
-
+                            Audit loadAudit = new Audit();
+                            AuditDAO newAuditDAO = new AuditDAO();
+                            List<Audit> auditList = newAuditDAO.getAllAudit();
+                            String useripaddr = loadAudit.GetIPAddress();
+                            String todayDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            if (auditList != null)
+                            {
+                                foreach (Audit currentAudit in auditList)
+                                {
+                                    String compareAuditIP = currentAudit.IPAddress;
+                                    if (compareAuditIP == useripaddr && tbLogin.Text == currentAudit.AdminNo && currentAudit.IsBanned == "T" && todayDate.Substring(0, 10) == currentAudit.ActionDate.Substring(0, 10))
+                                    {
+                                        newAuditDAO.InsertAudit("STUDENT LOGIN FAIL", todayDate, "NIL", currentAudit.AdminNo, useripaddr, "NIL", -1, "T");
+                                        Response.Redirect("Oops.aspx");
+                                    }
+                                }
+                            }
 
                             Audit newAudit = new Audit();
-                            AuditDAO newAuditDAO = new AuditDAO();
                             String currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             String ipaddr = newAudit.GetIPAddress();
                             newAuditDAO.InsertAudit("STUDENT LOGIN SUCCESS", currentDateTime, "NIL", adminNo, ipaddr, "NIL", -1, isBanned);
