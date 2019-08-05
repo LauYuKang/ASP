@@ -122,52 +122,65 @@ namespace eadLab5
                 if (validateAdminNo.Visible || validateYear.Visible || validatePw.Visible || validateCfmPw.Visible || validateEmail.Visible || validatePhoneNo.Visible) { }
                 else
                 {
-                    string pwd = tbPw.Text.ToString().Trim();
-                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                    byte[] saltByte = new byte[8];
-                    rng.GetBytes(saltByte);
-                    salt = Convert.ToBase64String(saltByte);
-                    SHA512Managed hashing = new SHA512Managed();
-
-                    string pwdWithSalt = pwd + salt;
-                    byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
-                    byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
-                    finalHash = Convert.ToBase64String(hashWithSalt);
-                    RijndaelManaged cipher = new RijndaelManaged();
-                    cipher.GenerateKey();
-
-                    int Year = Int32.Parse(tbYear.Text);
-                    string EmailVerified = "F";
-                    adminNo = tbAdminNo.Text;
-                    cipher.GenerateKey();
-                    Key = cipher.Key;
-                    IV = cipher.IV;
-                    string phoneno = Convert.ToBase64String(encryptData(tbPhone.Text));
-
-                    StudentDAO logDao = new StudentDAO();
-                    int logObj = logDao.InsertTD(tbAdminNo.Text, finalHash, Year , tbEmailAdd.Text, phoneno, salt, EmailVerified);
-
-                    if (logObj == 1)
+                    StudentLogin stuObj = new StudentLogin();
+                    StudentLoginDAO stuDao = new StudentLoginDAO();
+                    stuObj = stuDao.getStudentById(tbAdminNo.Text.ToString());
+                    if (stuObj != null)
                     {
-                        //Random r = new Random();
-                        //rInt = r.Next(10000, 99999);
-                        //SendPasswordResetEmail(tbEmailAdd.Text, tbAdminNo.Text, rInt);
-                        //lblverification.Visible = true;
-                        //btnSignUp.Visible = false;
-                        //btnDone.Visible = true;
-                        //tbVerification.Visible = true;
-                        Session["AdminNo"] = tbAdminNo.Text;
-                        Session["Email"] = tbEmailAdd.Text;
-                        LblResult.Text = "Please Verify Your Email!!! ";
-                        LblResult.ForeColor = System.Drawing.Color.Green;
-                        Response.Redirect("EmailVerified.aspx");
+                        LblResult.ForeColor = System.Drawing.Color.Red;
+                        LblResult.Visible = true;
+                        LblResult.Text = "User Exist";
                     }
                     else
                     {
-                        LblResult.Text = "Please fill in all the blank!";
-                        LblResult.ForeColor = System.Drawing.Color.Red;
+                        string pwd = tbPw.Text.ToString().Trim();
+                        RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                        byte[] saltByte = new byte[8];
+                        rng.GetBytes(saltByte);
+                        salt = Convert.ToBase64String(saltByte);
+                        SHA512Managed hashing = new SHA512Managed();
 
+                        string pwdWithSalt = pwd + salt;
+                        byte[] plainHash = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwd));
+                        byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
+                        finalHash = Convert.ToBase64String(hashWithSalt);
+                        RijndaelManaged cipher = new RijndaelManaged();
+                        cipher.GenerateKey();
+
+                        int Year = Int32.Parse(tbYear.Text);
+                        string EmailVerified = "F";
+                        adminNo = tbAdminNo.Text;
+                        cipher.GenerateKey();
+                        Key = cipher.Key;
+                        IV = cipher.IV;
+                        string phoneno = Convert.ToBase64String(encryptData(tbPhone.Text));
+
+                        StudentDAO logDao = new StudentDAO();
+                        int logObj = logDao.InsertTD(tbAdminNo.Text, finalHash, Year, tbEmailAdd.Text, phoneno, salt, EmailVerified);
+
+                        if (logObj == 1)
+                        {
+                            //Random r = new Random();
+                            //rInt = r.Next(10000, 99999);
+                            //SendPasswordResetEmail(tbEmailAdd.Text, tbAdminNo.Text, rInt);
+                            //lblverification.Visible = true;
+                            //btnSignUp.Visible = false;
+                            //btnDone.Visible = true;
+                            //tbVerification.Visible = true;
+                            Session["AdminNo"] = tbAdminNo.Text;
+                            Session["Email"] = tbEmailAdd.Text;
+                            LblResult.Text = "Please Verify Your Email!!! ";
+                            LblResult.ForeColor = System.Drawing.Color.Green;
+                            Response.Redirect("EmailVerified.aspx");
+                        }
+                        else
+                        {
+                            LblResult.Text = "Please fill in all the blank!";
+                            LblResult.ForeColor = System.Drawing.Color.Red;
+
+                        }
                     }
+
                 }
 
             }

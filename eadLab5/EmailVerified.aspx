@@ -10,7 +10,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <form id="form1" runat="server">
     <div>
-        <h2>Please Verify Your Email If not cannot Log In !!</h2>
+        <h2>Please Verify Your Email !!</h2>
 
             <table style="margin:auto;border:5px solid white">
                 <tr>
@@ -25,10 +25,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:Button ID="btn_sendCode" onclick="btn_sendCodeClick" runat="server" Text="Send Code" />
+                        <asp:Button ID="btn_sendCode" AutoPostBack="false" onclick="btn_sendCodeClick" runat="server" Text="Send Code" />
                     </td>
                     <td>
-                            <asp:Button ID="btn_submit" OnClick="btn_submitClick" runat="server" Text="Submit" />
+                            <asp:Button ID="btn_submit" AutoPostBack="false" OnClick="btn_submitClick" runat="server" Text="Submit" />
                     </td>
                 </tr>
                 <tr>

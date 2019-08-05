@@ -9,7 +9,8 @@ using System.Text;
 using System.Data;
 using System.Security.Cryptography;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
+using System.Text.RegularExpressions;
+
 
 
 namespace eadLab5
@@ -213,12 +214,31 @@ namespace eadLab5
             }
             else
             {
+                Regex admin = new Regex(@"[0-9][0-9][0-9][0-9][0-9][0-9][A-Z]");
+                if (admin.Match(tbLogin.Text).Success) { }
+                else
+                {
+                    validateLogin.Text = "Invalid Admin Number!";
+                    validateLogin.Visible = true;
+                }
+                Regex password = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
+                if (password.Match(tbPassword.Text).Success) { }
+                else
+                {
+                    validatePassword.Text = "Invalid password";
+                    validatePassword.Visible = true;
+                }
                 StudentLogin stuObj = new StudentLogin();
                 StudentLoginDAO stuDao = new StudentLoginDAO();
-                stuObj = stuDao.getStudentById(adminNo);
+                stuObj = stuDao.getStudentById(adminNo);            
                 if (stuObj == null)
                 {
                     lblErrorMessage.Visible = true;
+                }
+                else if(validateLogin.Visible || validatePassword.Visible)
+                {
+                    lblErrorMessage.Visible = true;
+                    lblErrorMessage.Text = "Invalid password or email";
                 }
                 else
                 {

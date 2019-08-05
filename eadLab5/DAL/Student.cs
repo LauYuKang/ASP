@@ -28,6 +28,7 @@ namespace eadLab5.DAL
         public String Status { get; set; }
         public String PEMClass { get; set; }
 
+        public String EmailVerified { get; set; }
         public DateTime EmailVerifiedTime { get; set; }
     }
 }
